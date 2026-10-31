@@ -1,71 +1,53 @@
 /**
  * Ana Gabriela & Leonardo // O Convite
- * Aplicação web exclusiva desenvolvida com elegância, carinho e maturidade.
+ * Script interativo com fluxo refinado, bem-humorado e elegante.
  */
 
-// Application State
+// ==========================================================================
+// ESTADO GLOBAL DO ROLÊ
+// ==========================================================================
 const gameState = {
   currentScreen: 0,
   preferences: {
     ride: 'De moto com você',
-    cuisine: '',
-    dateDay: '',
-    drink: '',
-    dessert: '',
-    vibe: ''
-  },
-  hostPhone: '5531999768062' // Leonardo's phone number
+    cuisine: null,
+    dateDay: null,
+    drink: null,
+    dessert: null,
+    vibe: null
+  }
 };
 
 // ==========================================================================
-// INITIALIZATION
+// INICIALIZAÇÃO
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
-  setupAudioListeners();
+  setupSoundToggle();
   setupBiometricScanner();
   setupBriefingNext();
   setupQuizPhase1();
   setupQuizPhase2();
   setupQuizPhase3();
   setupDecisionScreen();
-  setupTicketAndActions();
+  setupSharing();
+  setupReplay();
+
+  // Garante que o estado inicial comece com foco no topo
+  window.scrollTo(0, 0);
   updateProgressBar();
 });
 
-// Audio controls & priming
-function setupAudioListeners() {
-  const soundToggle = document.getElementById('soundToggle');
-  const soundIcon = document.getElementById('soundIcon');
-
-  const unlockAudio = () => {
-    if (window.soundEngine) {
-      window.soundEngine.init();
-    }
-    document.removeEventListener('click', unlockAudio);
-    document.removeEventListener('touchstart', unlockAudio);
-  };
-  document.addEventListener('click', unlockAudio, { once: true });
-  document.addEventListener('touchstart', unlockAudio, { once: true });
-
-  if (soundToggle) {
-    soundToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (window.soundEngine) {
-        const isMuted = window.soundEngine.toggleMute();
-        soundIcon.textContent = isMuted ? '🔇' : '🔊';
-        soundToggle.style.opacity = isMuted ? '0.5' : '1';
-      }
-    });
-  }
-}
-
-// Navigate between screens
+// ==========================================================================
+// NAVEGAÇÃO ENTRE TELAS
+// ==========================================================================
 function goToScreen(index) {
-  const current = document.getElementById(`screen${gameState.currentScreen}`);
-  const next = document.getElementById(`screen${index}`);
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(s => s.classList.remove('active'));
 
-  if (current) current.classList.remove('active');
-  if (next) next.classList.add('active');
+  const target = document.getElementById(`screen${index}`);
+  if (target) {
+    target.classList.add('active');
+  }
 
   gameState.currentScreen = index;
   updateProgressBar();
@@ -144,6 +126,8 @@ function setupBiometricScanner() {
   const percentText = document.getElementById('scanPercent');
   const msg = document.getElementById('telemetryMsg');
   const voiceBox = document.getElementById('voiceIdentifiedBox');
+  const btnReplayVoice = document.getElementById('btnReplayVoice');
+  const btnVoiceContinue = document.getElementById('btnVoiceContinue');
   
   if (!btn) return;
 
@@ -152,14 +136,14 @@ function setupBiometricScanner() {
   let isCompleted = false;
   let resetTimeout = null;
 
-  // Checkpoints maduros e respeitosos (~10 segundos)
+  // Checkpoints refinados e dinâmicos (~5.5 segundos)
   const telemetryCheckpoints = [
     { p: 2, text: '> Acesso verificado: Ana Gabriela.' },
     { p: 18, text: '> Resgatando a história: O ponto de ônibus em 2021 e a velha desculpa do Centro.' },
     { p: 38, text: '> Cinco anos se passaram — e você continua com aquela inteligência rara e humor afiado.' },
     { p: 58, text: '> Mulher dedicada, que se cobra tanto e merece uma noite pensada exclusivamente para ela.' },
-    { p: 80, text: '> Chegou a hora do nosso primeiro encontro de verdade.' },
-    { p: 98, text: '> Identidade confirmada. Reproduzindo áudio de validação...' }
+    { p: 78, text: '> Chegou a hora do nosso primeiro encontro de verdade.' },
+    { p: 96, text: '> Identidade confirmada. Reproduzindo áudio de validação...' }
   ];
 
   const updateTelemetryText = (currentProgress) => {
@@ -171,7 +155,7 @@ function setupBiometricScanner() {
     }
     if (msg.textContent !== chosenText) {
       msg.classList.add('changing');
-      if (window.soundEngine && currentProgress > 4 && currentProgress < 98) {
+      if (window.soundEngine && currentProgress > 4 && currentProgress < 96) {
         window.soundEngine.playPop();
       }
       setTimeout(() => {
@@ -201,14 +185,14 @@ function setupBiometricScanner() {
     }
 
     scanInterval = setInterval(() => {
-      scanProgress += 0.42;
+      scanProgress += 0.72; // ~5.5s para 100%
       if (scanProgress > 100) scanProgress = 100;
 
       if (fill) fill.style.width = `${scanProgress}%`;
       if (percentText) percentText.textContent = `${Math.floor(scanProgress)}%`;
       updateTelemetryText(scanProgress);
 
-      if (Math.floor(scanProgress) % 30 === 0 && window.soundEngine) {
+      if (Math.floor(scanProgress) % 25 === 0 && window.soundEngine) {
         window.soundEngine.playScanHum();
       }
 
@@ -231,17 +215,17 @@ function setupBiometricScanner() {
           voiceBox.classList.add('voice-appear');
         }
 
-        // Toca o áudio de identificação com voz sintetizada de alta qualidade
+        // Toca o áudio de identificação OBRIGATORIAMENTE (Stream HD + Web Speech Fallback)
         if (window.soundEngine) {
-          window.soundEngine.playIdentifiedVoice();
+          window.soundEngine.playIdentifiedVoice(() => {
+            // Avança para a próxima tela automaticamente apenas após o fim da fala
+            setTimeout(() => {
+              goToScreen(1); // Vai para o Briefing (Tela 1)
+            }, 1200);
+          });
         }
-
-        // Aguarda a reprodução completa do áudio antes de transicionar suavemente
-        setTimeout(() => {
-          goToScreen(1); // Vai para o Briefing (Tela 1)
-        }, 4200);
       }
-    }, 45);
+    }, 40);
   };
 
   const pauseScanning = () => {
@@ -260,7 +244,22 @@ function setupBiometricScanner() {
     }
   };
 
-  const btnReplayVoice = document.getElementById('btnReplayVoice');
+  const handleFingerRelease = () => {
+    if (isCompleted) {
+      // Se acabou de completar e o usuário soltou o dedo, garante que a reprodução ocorra
+      if (window.soundEngine && !window.soundEngine.isPlayingVoice) {
+        window.soundEngine.playIdentifiedVoice(() => {
+          setTimeout(() => {
+            goToScreen(1);
+          }, 1200);
+        });
+      }
+      return;
+    }
+    pauseScanning();
+  };
+
+  // Botão para ouvir novamente
   if (btnReplayVoice) {
     btnReplayVoice.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -270,12 +269,20 @@ function setupBiometricScanner() {
     });
   }
 
+  // Botão para avançar direto após ouvir
+  if (btnVoiceContinue) {
+    btnVoiceContinue.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToScreen(1);
+    });
+  }
+
   btn.addEventListener('mousedown', startScanning);
-  btn.addEventListener('mouseup', pauseScanning);
+  btn.addEventListener('mouseup', handleFingerRelease);
   btn.addEventListener('mouseleave', pauseScanning);
 
   btn.addEventListener('touchstart', startScanning, { passive: false });
-  btn.addEventListener('touchend', pauseScanning);
+  btn.addEventListener('touchend', handleFingerRelease);
   btn.addEventListener('touchcancel', pauseScanning);
 }
 
@@ -378,73 +385,60 @@ function setupQuizPhase2() {
 function setupQuizPhase3() {
   const customDateContainer = document.getElementById('customDateContainer');
   const customDateInput = document.getElementById('customDateInput');
-  const pillOtherDate = document.getElementById('pillOtherDate');
-  const dayPills = document.querySelectorAll('#dayOptions .pill-btn');
 
-  // Gerenciamento dos dias (incluindo opção personalizada)
-  dayPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      dayPills.forEach(p => p.classList.remove('selected'));
-      pill.classList.add('selected');
+  // Seletores de Chips
+  const dateChips = document.querySelectorAll('#dateGrid .chip');
+  dateChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      dateChips.forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
 
-      if (pill.id === 'pillOtherDate') {
-        // Exibe input para ela digitar a data
+      const val = chip.dataset.val;
+      if (val === 'Outra data') {
         if (customDateContainer) {
           customDateContainer.style.display = 'block';
-          if (customDateInput) {
-            customDateInput.focus();
-            if (customDateInput.value.trim()) {
-              gameState.preferences.dateDay = `Outra data (${customDateInput.value.trim()})`;
-            } else {
-              gameState.preferences.dateDay = '';
-            }
-          }
+          if (customDateInput) customDateInput.focus();
         }
+        gameState.preferences.dateDay = customDateInput?.value.trim() || 'Data a combinar';
       } else {
-        // Oculta campo personalizado se escolheu uma das 3 opções
         if (customDateContainer) {
           customDateContainer.style.display = 'none';
         }
-        gameState.preferences.dateDay = pill.dataset.val;
+        gameState.preferences.dateDay = val;
       }
-
-      if (window.soundEngine) window.soundEngine.playPop();
       checkPhase3Complete();
+      if (window.soundEngine) window.soundEngine.playSelect();
     });
   });
 
-  // Atualização em tempo real quando ela digita a outra data
   if (customDateInput) {
     customDateInput.addEventListener('input', () => {
-      const val = customDateInput.value.trim();
-      if (val) {
-        gameState.preferences.dateDay = `Outra data (${val})`;
+      if (customDateInput.value.trim().length > 0) {
+        gameState.preferences.dateDay = customDateInput.value.trim();
       } else {
-        gameState.preferences.dateDay = '';
+        gameState.preferences.dateDay = 'Data a combinar';
       }
       checkPhase3Complete();
     });
   }
 
-  // Grupos de escolha
-  const setupGroup = (containerId, key) => {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const pills = container.querySelectorAll('.pill-btn');
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        pills.forEach(p => p.classList.remove('selected'));
-        pill.classList.add('selected');
-        gameState.preferences[key] = pill.dataset.val;
-        if (window.soundEngine) window.soundEngine.playPop();
+  // Grupos simples de Chips (Bebida, Sobremesa, Vibe)
+  const setupChipGroup = (groupId, stateKey) => {
+    const chips = document.querySelectorAll(`#${groupId} .chip`);
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        gameState.preferences[stateKey] = chip.dataset.val;
         checkPhase3Complete();
+        if (window.soundEngine) window.soundEngine.playSelect();
       });
     });
   };
 
-  setupGroup('drinkOptions', 'drink');
-  setupGroup('dessertOptions', 'dessert');
-  setupGroup('vibeOptions', 'vibe');
+  setupChipGroup('drinkGrid', 'drink');
+  setupChipGroup('dessertGrid', 'dessert');
+  setupChipGroup('vibeGrid', 'vibe');
 
   const checkPhase3Complete = () => {
     const { dateDay, drink, dessert, vibe } = gameState.preferences;
@@ -543,142 +537,99 @@ function setupDecisionScreen() {
     });
   }
 
-  // Botão SIM (Único ativo)
+  // Botão SIM, COM CERTEZA! (ÚNICA OPÇÃO VÁLIDA)
   if (btnYes) {
     btnYes.addEventListener('click', () => {
       if (window.soundEngine) {
-        window.soundEngine.playChime();
-      }
-      if (navigator.vibrate) {
-        navigator.vibrate([60, 40, 100]);
+        window.soundEngine.playFanfare();
       }
 
-      fireTastefulConfetti();
-      renderBoardingPassTicket();
-      goToScreen(7); // Go to Boarding Pass / WhatsApp (Screen 7)
+      // Preenche o Ticket com os dados escolhidos
+      const ticketDate = document.getElementById('ticketDate');
+      const ticketRide = document.getElementById('ticketRide');
+      const ticketCuisine = document.getElementById('ticketCuisine');
+      const ticketDrink = document.getElementById('ticketDrink');
+
+      if (ticketDate) ticketDate.textContent = gameState.preferences.dateDay || 'Final de semana';
+      if (ticketRide) ticketRide.textContent = gameState.preferences.ride || 'De moto com você';
+      if (ticketCuisine) ticketCuisine.textContent = gameState.preferences.cuisine || 'Restaurante';
+      if (ticketDrink) ticketDrink.textContent = gameState.preferences.drink || 'Um bom brinde';
+
+      goToScreen(7); // Go to Confirmation (Screen 7)
+      fireConfetti();
     });
   }
 }
 
-function fireTastefulConfetti() {
-  if (!window.confetti) return;
+// ==========================================================================
+// FASE 7: CONFIRMAÇÃO & COMPARTILHAMENTO WHATSAPP
+// ==========================================================================
+function setupSharing() {
+  const btn = document.getElementById('whatsappShareBtn');
+  if (!btn) return;
 
-  confetti({
-    particleCount: 75,
-    spread: 65,
-    origin: { y: 0.65 },
-    colors: ['#e11d48', '#be123c', '#fb7185', '#d97706', '#f59e0b', '#ffffff']
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const { dateDay, cuisine, drink, ride } = gameState.preferences;
+    const text = `Oi Leo! Vi o seu convite reservado... e sim, eu aceito o rolê! 😂✨%0A%0A🗓️ *Quando:* ${encodeURIComponent(dateDay || 'Final de semana')}%0A🛵 *Transporte:* ${encodeURIComponent(ride || 'De moto com você')}%0A🍽️ *Gastronomia:* ${encodeURIComponent(cuisine || 'Restaurante')}%0A🥂 *Brinde:* ${encodeURIComponent(drink || 'Brinde especial')}%0A%0A5 anos depois daquele ponto de ônibus, vamos ver se você cumpre a promessa! 😉`;
+
+    const url = `https://api.whatsapp.com/send?text=${text}`;
+    window.open(url, '_blank');
   });
 }
 
-// ==========================================================================
-// FASE 7: BOARDING PASS & WHATSAPP
-// ==========================================================================
-function renderBoardingPassTicket() {
-  const container = document.getElementById('ticketPrefTags');
-  if (!container) return;
-  container.innerHTML = '';
-
-  const { dateDay, ride, cuisine, drink, dessert, vibe } = gameState.preferences;
-
-  const ticketDateValue = document.getElementById('ticketDateValue');
-  if (ticketDateValue) {
-    ticketDateValue.textContent = dateDay || 'Final de semana que vem';
-  }
-
-  const ticketRideValue = document.getElementById('ticketRideValue');
-  if (ticketRideValue) {
-    ticketRideValue.textContent = ride || 'De moto com você';
-  }
-
-  const tags = [
-    dateDay ? `📅 ${dateDay}` : '📅 Final de semana',
-    cuisine || 'Restaurante Exclusivo',
-    drink || 'Bebida Especial',
-    dessert || 'Sobremesa',
-    vibe ? `✨ ${vibe}` : 'Conversa Boa'
-  ];
-
-  tags.forEach(tagText => {
-    const badge = document.createElement('span');
-    badge.className = 'pref-tag-badge';
-    badge.textContent = tagText;
-    container.appendChild(badge);
-  });
-
-  updateWhatsAppLink();
-  updateCalendarLink();
-}
-
-function updateWhatsAppLink() {
-  const whatsappBtn = document.getElementById('whatsappShareBtn');
-  if (!whatsappBtn) return;
-  const { dateDay, ride, cuisine, drink, dessert, vibe } = gameState.preferences;
-
-  const dayHeader = dateDay ? ` (${dateDay})` : '';
-
-  const message = 
-`Oi Leo! Vi a aplicação que você programou... achei de muito bom gosto e super especial.
-
-Confirmando o nosso primeiro rolê oficial${dayHeader}:
-✅ CONVITE ACEITO!
-
-📋 O que eu escolhi:
-• Quando: ${dateDay || 'Final de semana que vem'}
-• Como vamos: ${ride || 'De moto com você'}
-• O que comer: ${cuisine || 'Restaurante exclusivo'}
-• Acompanhamento: ${drink || 'Bebida especial'}
-• Sobremesa: ${dessert || 'Sobremesa'}
-• Vibe: ${vibe || 'Conversa sincera e leveza'}
-
-Já que você bloqueou todas as outras opções 😂 e demorou cinco anos desde aquele ponto de ônibus, te passo a localização certinha pra gente ir! 🛵✨`;
-
-  const encodedMsg = encodeURIComponent(message);
-  whatsappBtn.href = `https://wa.me/${gameState.hostPhone}?text=${encodedMsg}`;
-}
-
-function updateCalendarLink() {
-  const calBtn = document.getElementById('calendarBtn');
-  if (!calBtn) return;
-  
-  const { dateDay } = gameState.preferences;
-  const title = encodeURIComponent(`Encontro: Leonardo & Ana Gabriela (${dateDay || 'Rolê'} 🛵✨)`);
-  const details = encodeURIComponent(
-    'Primeiro encontro oficial confirmado pelo convite reservado!\n' +
-    'Anfitrião: Leonardo\n' +
-    'Convidada de Honra: Ana Gabriela\n' +
-    `Data Escolhida: ${dateDay || 'Final de semana'}\n` +
-    'Transporte: De moto com você\n' +
-    'Programação: Gastronomia de alto nível, boa conversa e leveza.'
-  );
-  const location = encodeURIComponent('Lugar Especial');
-
-  // Next target day: Sexta (5), Sábado (6), Domingo (0)
-  let targetDayOfWeek = 5;
-  if (dateDay && dateDay.toLowerCase().includes('sábado')) targetDayOfWeek = 6;
-  if (dateDay && dateDay.toLowerCase().includes('domingo')) targetDayOfWeek = 0;
-
-  const now = new Date();
-  const targetDate = new Date();
-  const daysToAdd = ((targetDayOfWeek - now.getDay() + 7) % 7) || 7;
-  targetDate.setDate(now.getDate() + daysToAdd);
-  targetDate.setHours(targetDayOfWeek === 0 ? 17 : 20, 0, 0, 0);
-  const endDate = new Date(targetDate.getTime() + 3 * 3600 * 1000);
-
-  const pad = (n) => String(n).padStart(2, '0');
-  const formatTime = (d) => 
-    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-
-  const dates = `${formatTime(targetDate)}/${formatTime(endDate)}`;
-
-  calBtn.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
-}
-
-function setupTicketAndActions() {
-  const restartBtn = document.getElementById('restartBtn');
-  if (restartBtn) {
-    restartBtn.addEventListener('click', () => {
-      goToScreen(0);
+function setupReplay() {
+  const btn = document.getElementById('btnReplay');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      goToScreen(2);
     });
+  }
+}
+
+function setupSoundToggle() {
+  const btn = document.getElementById('soundToggle');
+  const icon = document.getElementById('soundIcon');
+  if (!btn || !icon) return;
+
+  btn.addEventListener('click', () => {
+    if (window.soundEngine) {
+      const isMuted = window.soundEngine.toggleMute();
+      icon.textContent = isMuted ? '🔇' : '🔊';
+      btn.classList.toggle('muted', isMuted);
+    }
+  });
+}
+
+function fireConfetti() {
+  if (typeof confetti === 'function') {
+    // Explosão suave com tons de rosa blush e dourado champanhe
+    confetti({
+      particleCount: 70,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#be123c', '#fb7185', '#f43f5e', '#fbbf24', '#ffffff']
+    });
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#be123c', '#fb7185', '#f43f5e']
+      });
+    }, 250);
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#be123c', '#fbbf24', '#f43f5e']
+      });
+    }, 400);
   }
 }

@@ -1,6 +1,7 @@
 /**
- * Audio Synthesizer using Web Audio API & Web Speech API
- * Subtle, elegant acoustic feedback + Native Spoken Speech Synthesis - zero external files required.
+ * Audio Synthesizer & Speech Engine
+ * Dual-layer acoustic feedback: Native Streamed HD Audio + Web Speech API fallback.
+ * Strictly guarantees playback upon biometric scan completion.
  */
 class SoundEngine {
   constructor() {
@@ -8,6 +9,7 @@ class SoundEngine {
     this.isMuted = false;
     this.isUnlocked = false;
     this.voices = [];
+    this.isPlayingVoice = false;
 
     // Preload speech synthesis voices
     if ('speechSynthesis' in window) {
@@ -25,6 +27,7 @@ class SoundEngine {
   }
 
   init() {
+    // 1. Initialize Web Audio Context
     if (!this.ctx) {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (AudioContext) {
@@ -35,28 +38,37 @@ class SoundEngine {
       this.ctx.resume();
     }
     this.isUnlocked = true;
-    this.unlockSpeech();
-  }
 
-  unlockSpeech() {
+    // 2. Prime the preloaded HTML5 Audio element on user gesture
+    const audioEl = document.getElementById('identifiedVoiceAudio');
+    if (audioEl) {
+      try {
+        audioEl.load();
+      } catch (e) {
+        // Silently catch
+      }
+    }
+
+    // 3. Resume SpeechSynthesis engine if paused
     if ('speechSynthesis' in window) {
       try {
-        window.speechSynthesis.cancel();
         window.speechSynthesis.resume();
-        const silent = new SpeechSynthesisUtterance(' ');
-        silent.volume = 0.01;
-        silent.rate = 2.0;
-        window.speechSynthesis.speak(silent);
       } catch (e) {
-        // Silently handle if not ready
+        // Silently catch
       }
     }
   }
 
   toggleMute() {
     this.isMuted = !this.isMuted;
-    if (this.isMuted && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    const audioEl = document.getElementById('identifiedVoiceAudio');
+    if (this.isMuted) {
+      if (audioEl) {
+        audioEl.pause();
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
     }
     return this.isMuted;
   }
@@ -183,7 +195,73 @@ class SoundEngine {
   }
 
   /**
-   * Voz sintetizada nativa em Português (pt-BR) de alta fidelidade
+   * Executa a fala de identificação com garantia absoluta (Camada Dupla)
+   * 1. HTML5 Audio Stream com voz natural em pt-BR
+   * 2. Fallback imediato para Web Speech API nativa se o áudio falhar
+   */
+  playIdentifiedVoice(onEndedCallback) {
+    if (this.isMuted) {
+      if (onEndedCallback) onEndedCallback();
+      return;
+    }
+
+    this.init();
+    const voiceText = 'Pessoa identificada: Ana Gabriela. Característica marcante: Um sorriso lindo, mente brilhante e um deboche sem igual. Acesso liberado.';
+    const audioEl = document.getElementById('identifiedVoiceAudio');
+
+    let audioHasPlayed = false;
+
+    const triggerFallback = () => {
+      if (audioHasPlayed) return;
+      audioHasPlayed = true;
+      this.speakVoice(voiceText, onEndedCallback);
+    };
+
+    if (audioEl) {
+      try {
+        audioEl.currentTime = 0;
+        
+        audioEl.onended = () => {
+          audioHasPlayed = true;
+          this.isPlayingVoice = false;
+          if (onEndedCallback) onEndedCallback();
+        };
+
+        audioEl.onerror = () => {
+          triggerFallback();
+        };
+
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              audioHasPlayed = true;
+              this.isPlayingVoice = true;
+            })
+            .catch((err) => {
+              console.warn('HTML5 Audio playback caught error, using SpeechSynthesis fallback:', err);
+              triggerFallback();
+            });
+        }
+
+        // Timer de segurança: se o áudio não iniciou em 650ms, usa o sintetizador de fala
+        setTimeout(() => {
+          if (!audioHasPlayed && (audioEl.paused || !audioEl.currentTime)) {
+            triggerFallback();
+          }
+        }, 700);
+
+      } catch (err) {
+        console.warn('Audio tag exception:', err);
+        triggerFallback();
+      }
+    } else {
+      triggerFallback();
+    }
+  }
+
+  /**
+   * Voz sintetizada nativa em Português (pt-BR) de alta fidelidade (Fallback)
    */
   speakVoice(text, onEnd) {
     if (this.isMuted) {
@@ -197,37 +275,48 @@ class SoundEngine {
     }
 
     try {
-      window.speechSynthesis.cancel();
       window.speechSynthesis.resume();
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'pt-BR';
-      utterance.rate = 0.94; // Cadência clara e agradável
-      utterance.pitch = 1.05;
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
-      // Localiza a melhor voz em pt-BR disponível no sistema
+      // Localiza a melhor voz em pt-BR disponível
       const voices = this.voices.length > 0 ? this.voices : window.speechSynthesis.getVoices();
-      const ptVoice = voices.find(v => v.lang === 'pt-BR' || v.lang === 'pt_BR' || v.lang.startsWith('pt'));
+      const ptVoice = voices.find(v => v.lang === 'pt-BR' || v.lang === 'pt_BR' || (v.lang && v.lang.startsWith('pt')));
       if (ptVoice) {
         utterance.voice = ptVoice;
       }
 
-      if (onEnd) {
-        utterance.onend = onEnd;
-        utterance.onerror = onEnd;
-      }
+      let ended = false;
+      const finish = () => {
+        if (ended) return;
+        ended = true;
+        this.isPlayingVoice = false;
+        if (onEnd) onEnd();
+      };
 
+      utterance.onend = finish;
+      utterance.onerror = finish;
+
+      this.isPlayingVoice = true;
       window.speechSynthesis.speak(utterance);
+
+      // Keep-alive para Chromium
+      const keepAlive = setInterval(() => {
+        if (!window.speechSynthesis.speaking) {
+          clearInterval(keepAlive);
+        } else {
+          window.speechSynthesis.resume();
+        }
+      }, 1000);
+
     } catch (err) {
       console.warn('Speech synthesis warning:', err);
       if (onEnd) onEnd();
     }
-  }
-
-  playIdentifiedVoice() {
-    const text = 'Pessoa identificada: Ana Gabriela. Característica marcante: Um sorriso lindo, mente brilhante e um deboche sem igual. Acesso liberado.';
-    this.speakVoice(text);
   }
 
   playFanfare() {
