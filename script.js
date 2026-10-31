@@ -36,15 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupAudioListeners() {
   const soundToggle = document.getElementById('soundToggle');
   const soundIcon = document.getElementById('soundIcon');
-  const voiceAudio = document.getElementById('voiceAudio');
 
   const unlockAudio = () => {
     if (window.soundEngine) {
       window.soundEngine.init();
-    }
-    // Desbloqueia o elemento de áudio nativo em dispositivos móveis
-    if (voiceAudio) {
-      voiceAudio.load();
     }
     document.removeEventListener('click', unlockAudio);
     document.removeEventListener('touchstart', unlockAudio);
@@ -59,9 +54,6 @@ function setupAudioListeners() {
         const isMuted = window.soundEngine.toggleMute();
         soundIcon.textContent = isMuted ? '🔇' : '🔊';
         soundToggle.style.opacity = isMuted ? '0.5' : '1';
-        if (voiceAudio) {
-          voiceAudio.muted = isMuted;
-        }
       }
     });
   }
@@ -152,7 +144,6 @@ function setupBiometricScanner() {
   const percentText = document.getElementById('scanPercent');
   const msg = document.getElementById('telemetryMsg');
   const voiceBox = document.getElementById('voiceIdentifiedBox');
-  const voiceAudio = document.getElementById('voiceAudio');
   
   if (!btn) return;
 
@@ -201,11 +192,6 @@ function setupBiometricScanner() {
 
     btn.classList.add('scanning');
 
-    // Desbloqueia e pré-carrega o áudio no toque direto do usuário
-    if (voiceAudio) {
-      voiceAudio.load();
-    }
-
     if (navigator.vibrate) {
       navigator.vibrate(30);
     }
@@ -248,9 +234,6 @@ function setupBiometricScanner() {
         // Toca o áudio de identificação com voz sintetizada de alta qualidade
         if (window.soundEngine) {
           window.soundEngine.playIdentifiedVoice();
-        } else if (voiceAudio) {
-          voiceAudio.currentTime = 0;
-          voiceAudio.play().catch(() => {});
         }
 
         // Aguarda a reprodução completa do áudio antes de transicionar suavemente
@@ -276,6 +259,16 @@ function setupBiometricScanner() {
       }, 4000);
     }
   };
+
+  const btnReplayVoice = document.getElementById('btnReplayVoice');
+  if (btnReplayVoice) {
+    btnReplayVoice.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.soundEngine) {
+        window.soundEngine.playIdentifiedVoice();
+      }
+    });
+  }
 
   btn.addEventListener('mousedown', startScanning);
   btn.addEventListener('mouseup', pauseScanning);

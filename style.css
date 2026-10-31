@@ -760,8 +760,36 @@ body {
 .voice-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   margin-bottom: 6px;
+}
+
+.voice-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.voice-replay-btn {
+  background: #ffe4e8;
+  border: 1px solid rgba(190, 18, 60, 0.25);
+  color: var(--accent-rose);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.voice-replay-btn:hover {
+  background: var(--accent-rose);
+  color: #fff;
 }
 
 .voice-title {

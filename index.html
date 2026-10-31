@@ -23,9 +23,6 @@
 </head>
 
 <body>
-  <!-- Áudio nativo pré-carregado de identificação biométrica -->
-  <audio id="voiceAudio" src="identified.mp3" preload="auto"></audio>
-
   <!-- Ambient Soft Background Lighting -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
@@ -118,10 +115,15 @@
         <!-- Feedback de voz visual (após identificação) -->
         <div class="voice-identified-box" id="voiceIdentifiedBox" style="display: none;">
           <div class="voice-header">
-            <span class="voice-wave-anim">
-              <span></span><span></span><span></span><span></span>
-            </span>
-            <span class="voice-title">SÍNTESE DE ÁUDIO // IDENTIFICAÇÃO</span>
+            <div class="voice-header-left">
+              <span class="voice-wave-anim">
+                <span></span><span></span><span></span><span></span>
+              </span>
+              <span class="voice-title">SÍNTESE DE ÁUDIO // IDENTIFICAÇÃO</span>
+            </div>
+            <button id="btnReplayVoice" class="voice-replay-btn" type="button" title="Ouvir áudio novamente">
+              <span>🔊 Ouvir</span>
+            </button>
           </div>
           <p class="voice-body" id="voiceBodyText">
             "Pessoa identificada: <strong>Ana Gabriela</strong>.<br>
