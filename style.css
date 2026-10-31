@@ -2,28 +2,28 @@
    DESIGN SYSTEM - SOFTWARE ENGINEER & BOUTIQUE EDITORIAL AESTHETIC
    ========================================================================== */
 :root {
-  --bg-page: #faf7f5;
+  --bg-page: #fdf2f4;
   --bg-card: #ffffff;
-  --bg-subtle: #f4efe9;
+  --bg-subtle: #fce7eb;
   
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-accent: rgba(225, 29, 72, 0.25);
+  --border-light: rgba(225, 29, 72, 0.12);
+  --border-accent: rgba(225, 29, 72, 0.35);
 
   --accent-rose: #e11d48;
   --accent-terracotta: #c2410c;
   --accent-green: #10b981;
   --accent-amber: #f59e0b;
 
-  --text-main: #18181b;
-  --text-muted: #52525b;
-  --text-dim: #71717a;
+  --text-main: #1c1917;
+  --text-muted: #57534e;
+  --text-dim: #78716c;
 
   --gradient-btn: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
   --gradient-gold: linear-gradient(135deg, #d97706 0%, #b45309 100%);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 12px 32px -4px rgba(24, 24, 27, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  --shadow-btn: 0 6px 20px rgba(225, 29, 72, 0.28);
+  --shadow-sm: 0 2px 10px rgba(225, 29, 72, 0.06);
+  --shadow-card: 0 12px 32px -4px rgba(225, 29, 72, 0.08), 0 4px 14px -2px rgba(0, 0, 0, 0.04);
+  --shadow-btn: 0 6px 20px rgba(225, 29, 72, 0.32);
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -69,7 +69,7 @@ body {
   min-height: 100dvh;
   padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 24px) 16px;
   position: relative;
-  background: radial-gradient(circle at 50% 0%, #fffbf8 0%, #faf7f5 70%, #f5efe9 100%);
+  background: radial-gradient(circle at 50% 0%, #fff1f3 0%, #fdf2f4 50%, #fae6ea 100%);
 }
 
 /* Ambient Subtle Lighting */
@@ -79,21 +79,21 @@ body {
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.4;
+  opacity: 0.55;
 }
 
 .glow-1 {
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, #fde8e8, transparent 70%);
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(251, 113, 133, 0.45), transparent 70%);
   top: -40px;
   right: -60px;
 }
 
 .glow-2 {
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, #fef3c7, transparent 70%);
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.4), transparent 70%);
   bottom: 80px;
   left: -60px;
 }
@@ -218,9 +218,9 @@ body {
   gap: 7px;
   padding: 5px 12px;
   border-radius: var(--radius-full);
-  background: #f4efe9;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: #3f3f46;
+  background: #fff0f3;
+  border: 1px solid rgba(225, 29, 72, 0.16);
+  color: #9f1239;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
@@ -351,14 +351,14 @@ body {
 /* REASSURANCE QUOTE BOX */
 .reassurance-box {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid var(--border-light);
+  background: #fff8f9;
+  border: 1px solid rgba(225, 29, 72, 0.16);
   border-left: 3.5px solid var(--accent-rose);
   border-radius: var(--radius-md);
   padding: 16px;
   text-align: left;
   margin-bottom: 22px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.05);
 }
 
 .reassurance-header {
@@ -461,7 +461,7 @@ body {
   width: 125px;
   height: 125px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, #faf7f5 80%);
+  background: radial-gradient(circle, #ffffff 0%, #fff0f3 80%);
   border: 2.5px solid var(--border-accent);
   color: var(--accent-rose);
   display: flex;
@@ -470,7 +470,7 @@ body {
   justify-content: center;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 8px 25px rgba(225, 29, 72, 0.14);
+  box-shadow: 0 8px 25px rgba(225, 29, 72, 0.18);
   transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
   overflow: hidden;
   user-select: none;
@@ -572,8 +572,8 @@ body {
 /* CONTEXT BANTER BOX */
 .context-pill-box {
   width: 100%;
-  background: #fcf9f6;
-  border: 1px solid #ebd9c8;
+  background: #fff5f7;
+  border: 1px solid rgba(225, 29, 72, 0.2);
   border-radius: var(--radius-md);
   padding: 14px 16px;
   text-align: left;
@@ -755,10 +755,10 @@ body {
   text-align: left;
   margin-bottom: 14px;
   background: #ffffff;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(225, 29, 72, 0.14);
   border-radius: var(--radius-md);
   padding: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.05);
 }
 
 .quiz-sub-label {
@@ -779,9 +779,9 @@ body {
 .pill-btn {
   padding: 9px 14px;
   border-radius: var(--radius-full);
-  background: #fbf9f7;
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
+  background: #fff5f7;
+  border: 1px solid rgba(225, 29, 72, 0.16);
+  color: #4a1523;
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
@@ -791,14 +791,15 @@ body {
 }
 
 .pill-btn:hover {
-  background: #fff0f3;
-  color: var(--accent-rose);
+  background: #ffe4e8;
+  color: #be123c;
+  border-color: rgba(225, 29, 72, 0.35);
 }
 
 .pill-btn.selected {
-  background: #ffe4e8;
+  background: #fecdd3;
   border-color: var(--accent-rose);
-  color: var(--accent-rose);
+  color: #9f1239;
   font-weight: 700;
 }
 
@@ -970,8 +971,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #fdfaf6;
-  border: 1px solid var(--border-light);
+  background: #fff5f7;
+  border: 1px solid rgba(225, 29, 72, 0.2);
   border-radius: var(--radius-md);
   padding: 12px 18px;
   margin-bottom: 18px;
@@ -1106,8 +1107,8 @@ body {
 
 .ticket-header {
   padding: 16px 20px;
-  background: #fdfaf6;
-  border-bottom: 1px solid var(--border-light);
+  background: #fff5f7;
+  border-bottom: 1px solid rgba(225, 29, 72, 0.12);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1211,8 +1212,8 @@ body {
 }
 
 .pref-tag-badge {
-  background: #fbf9f7;
-  border: 1px solid var(--border-light);
+  background: #fff5f7;
+  border: 1px solid rgba(225, 29, 72, 0.16);
   border-radius: var(--radius-full);
   padding: 4px 10px;
   font-size: 0.74rem;
@@ -1276,13 +1277,13 @@ body {
 
 .btn-calendar {
   background: #ffffff;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(225, 29, 72, 0.18);
   color: var(--text-main);
   font-size: 0.94rem;
 }
 
 .btn-calendar:hover {
-  background: #fdfaf6;
+  background: #fff5f7;
 }
 
 .btn-ghost {
@@ -1303,14 +1304,15 @@ body {
   body {
     padding-top: 30px;
     padding-bottom: 40px;
+    background: radial-gradient(circle at 50% 0%, #fff1f3 0%, #fdf2f4 50%, #fae6ea 100%);
   }
   
   .app-container {
     background: #ffffff;
-    border: 1px solid var(--border-light);
+    border: 1.5px solid rgba(225, 29, 72, 0.16);
     border-radius: 32px;
     padding: 28px 24px 34px 24px;
-    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 25px 60px -15px rgba(225, 29, 72, 0.12), 0 10px 25px rgba(0, 0, 0, 0.04);
   }
 
   .progress-container {

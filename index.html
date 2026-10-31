@@ -192,11 +192,11 @@
 
       <div class="options-grid" id="motoGrid">
         <!-- A ÚNICA OPÇÃO REALMENTE PERMITIDA -->
-        <button class="option-card option-real" id="optMoto" data-key="ride" data-val="Vou de garupa na moto (abraçada e sem debochar)">
+        <button class="option-card option-real" id="optMoto" data-key="ride" data-val="Vou de garupa na moto (sem debochar do piloto)">
           <span class="option-emoji">🏍️</span>
           <div class="option-content">
             <div class="option-title">Na garupa da moto com o Leo</div>
-            <div class="option-desc">Transporte oficial. Abraçada no piloto, vento no rosto pra espairecer a mente e zero estresse.</div>
+            <div class="option-desc">Transporte oficial. Capacete extra, vento no rosto pra espairecer a mente e zero estresse.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -284,18 +284,28 @@
     </section>
 
     <!-- ==============================================
-         FASE 4: BEBIDAS SEM ÁLCOOL, SOBREMESA E VIBE
+         FASE 4: DIA DO ROLÊ, BEBIDAS, SOBREMESA E VIBE
          ============================================== -->
     <section class="screen" id="screen4">
       <div class="code-badge">
         <span class="dot"></span> params.fine_tuning()
       </div>
 
-      <h2 class="section-title">Três variáveis para fechar o sistema:</h2>
+      <h2 class="section-title">Quatro detalhes para fechar o sistema:</h2>
 
-      <!-- Pergunta 1: Bebida sem álcool -->
+      <!-- Pergunta 1: O Dia do Rolê -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">🥤 1. O que vamos beber para acompanhar?</label>
+        <label class="quiz-sub-label">📅 1. Qual dia fica melhor pra você desacelerar?</label>
+        <div class="compact-options" id="dayOptions">
+          <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta que vem</button>
+          <button class="pill-btn" data-key="dateDay" data-val="Sábado que vem">✨ Sábado que vem</button>
+          <button class="pill-btn" data-key="dateDay" data-val="Domingo que vem">☀️ Domingo que vem</button>
+        </div>
+      </div>
+
+      <!-- Pergunta 2: Bebida sem álcool -->
+      <div class="sub-quiz-block">
+        <label class="quiz-sub-label">🥤 2. O que vamos beber para acompanhar?</label>
         <div class="compact-options" id="drinkOptions">
           <button class="pill-btn" data-key="drink" data-val="Soda Italiana de Frutas">🫐 Soda Italiana Artesanal</button>
           <button class="pill-btn" data-key="drink" data-val="Suco Natural Especial">🍹 Suco Natural Especial</button>
@@ -304,9 +314,9 @@
         </div>
       </div>
 
-      <!-- Pergunta 2: Sobremesa -->
+      <!-- Pergunta 3: Sobremesa -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">🍰 2. Chegou a hora da sobremesa:</label>
+        <label class="quiz-sub-label">🍰 3. Chegou a hora da sobremesa:</label>
         <div class="compact-options" id="dessertOptions">
           <button class="pill-btn" data-key="dessert" data-val="Petit Gâteau Clássico">🍫 Petit Gâteau clássico</button>
           <button class="pill-btn" data-key="dessert" data-val="Gelato Artesanal ou Torta">🍨 Gelato artesanal / Torta</button>
@@ -314,9 +324,9 @@
         </div>
       </div>
 
-      <!-- Pergunta 3: A Vibe do Rolê -->
+      <!-- Pergunta 4: A Vibe do Rolê -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">✨ 3. O que não pode faltar no nosso rolê?</label>
+        <label class="quiz-sub-label">✨ 4. O que não pode faltar no nosso rolê?</label>
         <div class="compact-options" id="vibeOptions">
           <button class="pill-btn" data-key="vibe" data-val="Desacelerar a mente e esquecer as cobranças">🧘 Desacelerar a mente e esquecer as cobranças</button>
           <button class="pill-btn" data-key="vibe" data-val="Rir da história do ônibus em 2021">😼 Rir da história do ônibus em 2021 e do golpe do Insta</button>
@@ -376,13 +386,13 @@
         <div class="date-badge">
           <span class="date-icon">🚏🛵</span>
           <div class="date-details">
-            <span class="date-day">O NOSSO ROLÊ OFICIAL</span>
+            <span class="date-day" id="chosenDateDisplay">ROLÊ CONFIRMADO</span>
             <span class="date-sub">Missão: Desacelerar & Curtir (Mesa & Rota Reservadas)</span>
           </div>
         </div>
 
-        <p class="invite-question">
-          Foram 5 anos desde aquele ponto de ônibus. Vai ter coragem de colar comigo nesse <strong>rolê de moto</strong> pra esquecer as cobranças da rotina e dar boas risadas? (Prometo que você volta inteira pra casa 😂).
+        <p class="invite-question" id="inviteQuestionText">
+          Foram 5 anos desde aquele ponto de ônibus. Vai ter coragem de colar comigo nesse <strong>rolê de moto</strong> na <span id="inviteDaySpan">data que você escolheu</span> pra esquecer as cobranças da rotina e dar boas risadas? (Prometo que você volta inteira pra casa 😂).
         </p>
 
         <div class="runaway-zone" id="runawayZone">
@@ -436,8 +446,8 @@
 
           <div class="ticket-row">
             <div class="ticket-col">
-              <span class="ticket-label">MISSÃO</span>
-              <span class="ticket-value">Operação Leveza ✨</span>
+              <span class="ticket-label">DATA ESCOLHIDA</span>
+              <span class="ticket-value highlight" id="ticketDateValue">Sexta que vem</span>
             </div>
             <div class="ticket-col">
               <span class="ticket-label">TRANSPORTE</span>

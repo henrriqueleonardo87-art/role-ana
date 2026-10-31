@@ -9,6 +9,7 @@ const gameState = {
   preferences: {
     ride: '',
     cuisine: '',
+    dateDay: '',
     drink: '',
     dessert: '',
     vibe: ''
@@ -337,7 +338,7 @@ function setupQuizPhase2() {
 }
 
 // ==========================================================================
-// FASE 4: DETALHES (BEBIDA, DOCE, VIBE)
+// FASE 4: DETALHES (DIA, BEBIDA, DOCE, VIBE)
 // ==========================================================================
 function setupQuizPhase3() {
   const setupGroup = (containerId, key) => {
@@ -355,14 +356,15 @@ function setupQuizPhase3() {
     });
   };
 
+  setupGroup('dayOptions', 'dateDay');
   setupGroup('drinkOptions', 'drink');
   setupGroup('dessertOptions', 'dessert');
   setupGroup('vibeOptions', 'vibe');
 
   const checkPhase3Complete = () => {
-    const { drink, dessert, vibe } = gameState.preferences;
+    const { dateDay, drink, dessert, vibe } = gameState.preferences;
     const nextBtn = document.getElementById('nextBtn3');
-    if (drink && dessert && vibe && nextBtn) {
+    if (dateDay && drink && dessert && vibe && nextBtn) {
       nextBtn.disabled = false;
     }
   };
@@ -422,6 +424,11 @@ function runAIComputationScreen() {
       if (matchNumber) matchNumber.textContent = '100%';
 
       setTimeout(() => {
+        const chosenDay = gameState.preferences.dateDay || 'Sexta que vem';
+        const displayEl = document.getElementById('chosenDateDisplay');
+        if (displayEl) displayEl.textContent = chosenDay.toUpperCase();
+        const spanEl = document.getElementById('inviteDaySpan');
+        if (spanEl) spanEl.textContent = chosenDay.toLowerCase();
         goToScreen(6); // Go to The Big Question (Screen 6)
       }, 900);
     }
@@ -539,9 +546,15 @@ function renderBoardingPassTicket() {
   if (!container) return;
   container.innerHTML = '';
 
-  const { ride, cuisine, drink, dessert, vibe } = gameState.preferences;
+  const { dateDay, ride, cuisine, drink, dessert, vibe } = gameState.preferences;
+
+  const ticketDateValue = document.getElementById('ticketDateValue');
+  if (ticketDateValue) {
+    ticketDateValue.textContent = dateDay || 'Final de semana que vem';
+  }
 
   const tags = [
+    dateDay ? `📅 ${dateDay}` : '📅 Final de semana',
     cuisine || 'Restaurante Exclusivo',
     drink || 'Bebida Especial',
     dessert || 'Sobremesa',
@@ -563,17 +576,20 @@ function renderBoardingPassTicket() {
 function updateWhatsAppLink() {
   const whatsappBtn = document.getElementById('whatsappShareBtn');
   if (!whatsappBtn) return;
-  const { ride, cuisine, drink, dessert, vibe } = gameState.preferences;
+  const { dateDay, ride, cuisine, drink, dessert, vibe } = gameState.preferences;
+
+  const dayHeader = dateDay ? ` (${dateDay.toUpperCase()})` : '';
 
   const message = 
 `Oi Leo! Vi que você codou um sistema inteiro só pra me chamar pra sair... achei genial! 😂🏍️💻
 
-Minha confirmação para o nosso ROLÊ:
+Minha confirmação para o nosso ROLÊ${dayHeader}:
 ✅ CONVITE ACEITO!
 
 📋 Meu roteiro da leveza:
+• Quando: ${dateDay || 'Final de semana que vem'}
 • Transporte: ${ride || 'Vou na garupa da moto!'}
-• Onde comer: ${cuisine || 'Surpresa gastronômica'}
+• O que comer: ${cuisine || 'Surpresa gastronômica'}
 • Para acompanhar: ${drink || 'Bebida bem gelada'}
 • Sobremesa: ${dessert || 'Doce especial'}
 • Vibe do rolê: ${vibe || 'Desacelerar e dar risada'}
@@ -588,28 +604,34 @@ function updateCalendarLink() {
   const calBtn = document.getElementById('calendarBtn');
   if (!calBtn) return;
   
-  const title = encodeURIComponent('Rolê: Leonardo & Ana Gabriela 🛵✨');
+  const { dateDay } = gameState.preferences;
+  const title = encodeURIComponent(`Rolê: Leonardo & Ana Gabriela (${dateDay || 'Rolê'} 🛵✨)`);
   const details = encodeURIComponent(
     'Rolê oficial confirmado pelo convite interativo!\n' +
     'Dev & Piloto: Leonardo\n' +
     'Convidada de Honra: Ana Gabriela\n' +
+    `Data Escolhida: ${dateDay || 'Final de semana'}\n` +
     'Programação: Carona de moto, boa gastronomia e conversa sem pressa.'
   );
   const location = encodeURIComponent('Lugar Especial');
 
-  // Next Friday at 20:00 BRT
+  // Next target day: Sexta (5), Sábado (6), Domingo (0)
+  let targetDayOfWeek = 5;
+  if (dateDay && dateDay.toLowerCase().includes('sábado')) targetDayOfWeek = 6;
+  if (dateDay && dateDay.toLowerCase().includes('domingo')) targetDayOfWeek = 0;
+
   const now = new Date();
-  const nextFriday = new Date();
-  const daysUntilFriday = ((5 - now.getDay() + 7) % 7) || 7;
-  nextFriday.setDate(now.getDate() + daysUntilFriday);
-  nextFriday.setHours(20, 0, 0, 0);
-  const endFriday = new Date(nextFriday.getTime() + 3 * 3600 * 1000);
+  const targetDate = new Date();
+  const daysToAdd = ((targetDayOfWeek - now.getDay() + 7) % 7) || 7;
+  targetDate.setDate(now.getDate() + daysToAdd);
+  targetDate.setHours(targetDayOfWeek === 0 ? 17 : 20, 0, 0, 0);
+  const endDate = new Date(targetDate.getTime() + 3 * 3600 * 1000);
 
   const pad = (n) => String(n).padStart(2, '0');
   const formatTime = (d) => 
     `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
 
-  const dates = `${formatTime(nextFriday)}/${formatTime(endFriday)}`;
+  const dates = `${formatTime(targetDate)}/${formatTime(endDate)}`;
 
   calBtn.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
 }
