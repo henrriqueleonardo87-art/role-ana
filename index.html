@@ -23,6 +23,9 @@
 </head>
 
 <body>
+  <!-- Áudio nativo pré-carregado de identificação biométrica -->
+  <audio id="voiceAudio" src="identified.mp3" preload="auto"></audio>
+
   <!-- Ambient Soft Background Lighting -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
@@ -64,7 +67,7 @@
       <!-- Badge de recomendação de áudio para ouvir a identificação -->
       <div class="volume-hint-badge" id="volumeHintBadge">
         <span class="volume-hint-icon">🔊</span>
-        <span class="volume-hint-text"><strong>Aumente o volume:</strong> Identificação de voz do sistema ativada</span>
+        <span class="volume-hint-text"><strong>Aumente o volume:</strong> Identificação por áudio do sistema ativada</span>
       </div>
 
       <div class="card scanner-card">
@@ -118,12 +121,12 @@
             <span class="voice-wave-anim">
               <span></span><span></span><span></span><span></span>
             </span>
-            <span class="voice-title">SÍNTESE DE VOZ // IDENTIFICAÇÃO</span>
+            <span class="voice-title">SÍNTESE DE ÁUDIO // IDENTIFICAÇÃO</span>
           </div>
           <p class="voice-body" id="voiceBodyText">
             "Pessoa identificada: <strong>Ana Gabriela</strong>.<br>
             Característica marcante: <strong>Um sorriso lindo</strong>, inteligência admirável e um deboche sem igual.<br>
-            <span class="voice-highlight">Acesso liberado com honras.</span>"
+            <span class="voice-highlight">Acesso liberado com sucesso.</span>"
           </p>
         </div>
       </div>
@@ -221,33 +224,34 @@
         <span class="dot"></span> LOGÍSTICA // ROTA
       </div>
 
-      <h2 class="section-title">Como você prefere chegar? 🏍️</h2>
+      <h2 class="section-title">Como vamos para o rolê? 🏍️</h2>
       <p class="subtitle">
-        Escolha o transporte para a noite. A carona oficial é garantida com toda segurança:
+        A carona oficial é garantida com toda atenção e cuidado:
       </p>
 
       <div class="options-grid" id="motoGrid">
-        <!-- OPÇÃO 1: MOTO (RECOMENDADA) -->
-        <button class="option-card featured-option selected" id="optMoto" data-key="ride" data-val="Na garupa da moto com o Leo">
-          <div class="featured-badge">RECOMENDADO</div>
+        <!-- OPÇÃO 1: DE MOTO COM VOCÊ (ÚNICA DISPONÍVEL) -->
+        <button class="option-card featured-option selected" id="optMoto" data-key="ride" data-val="De moto com você">
+          <div class="featured-badge">TRANSPORTE OFICIAL</div>
           <span class="option-emoji">🏍️</span>
           <div class="option-content">
-            <div class="option-category">TRANSPORTE OFICIAL</div>
-            <div class="option-title">Na garupa da moto com o Leo</div>
-            <div class="option-desc">Passo para te buscar. Capacete extra preparado, atenção no trânsito, vento no rosto e zero preocupação.</div>
+            <div class="option-category">EXCLUSIVO</div>
+            <div class="option-title">De moto com você</div>
+            <div class="option-desc">Passo para te buscar. Capacete extra preparado, atenção redobrada no trânsito, vento no rosto e zero preocupação.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
 
-        <!-- OPÇÃO 2: DIRETO NO RESTAURANTE -->
-        <button class="option-card" id="optEncontro" data-key="ride" data-val="Nos encontramos direto no restaurante">
+        <!-- OPÇÃO 2: DIRETO NO RESTAURANTE / IR SOZINHA (BLOQUEADO) -->
+        <button class="option-card option-blocked" id="optEncontro" type="button" data-type="blocked-alone">
+          <div class="blocked-badge">🔒 BLOQUEADO</div>
           <span class="option-emoji">📍</span>
           <div class="option-content">
-            <div class="option-category">FLEXIBILIDADE</div>
-            <div class="option-title">Nos encontramos direto no local</div>
-            <div class="option-desc">Se preferir ir direto por conta própria, total tranquilidade: garanto a mesa reservada e te espero lá.</div>
+            <div class="option-category tag-blocked">INDISPONÍVEL</div>
+            <div class="option-title">Ir sozinha / Encontro direto no local</div>
+            <div class="option-desc">Nada de ir sozinha! Hoje a carona é de moto comigo, você vai ser bem cuidada do início ao fim 😉</div>
           </div>
-          <div class="check-circle">✓</div>
+          <div class="lock-indicator">🔒</div>
         </button>
 
         <!-- OPÇÃO 3: UBER (BLOQUEADO) -->
@@ -257,7 +261,7 @@
           <div class="option-content">
             <div class="option-category tag-blocked">INDISPONÍVEL</div>
             <div class="option-title">Ir de Uber</div>
-            <div class="option-desc">Nada de motorista desconhecido com rádio estranho. Hoje você vai comigo ou nos vemos lá!</div>
+            <div class="option-desc">Sem motorista estranho no trânsito hoje. A carona oficial é de moto com o Leo!</div>
           </div>
           <div class="lock-indicator">🔒</div>
         </button>
@@ -460,7 +464,7 @@
             </div>
             <div class="check-item done">
               <span class="check-icon">✓</span>
-              <span>Transporte: <strong id="previewRide">Carona de moto</strong></span>
+              <span>Transporte: <strong id="previewRide">De moto com você</strong></span>
             </div>
           </div>
         </div>
@@ -503,28 +507,24 @@
           Você aceita sair comigo para esse rolê especial na <strong id="inviteDaySpan">data escolhida</strong>? Prometo boa conversa, risadas e uma noite impecável.
         </p>
 
-        <!-- Botões de Decisão: Sim, Pensar e Não (Bloqueado) -->
+        <!-- Botões de Decisão: Sim (Único ativo) e Opções Bloqueadas com Humor de Ditador -->
         <div class="action-decision-box">
           <button id="btnYes" class="btn btn-yes" type="button">
             <span>SIM, COM CERTEZA!</span>
             <span class="arrow-icon">→</span>
           </button>
 
-          <button id="btnThink" class="btn btn-think" type="button">
-            <span>Vou pensar com carinho... 💭</span>
+          <!-- Botão Pensar com carinho Bloqueado (Humor: Sou ditador) -->
+          <button id="btnThink" class="btn btn-think-blocked" type="button">
+            <span class="lock-icon">🔒</span>
+            <span>Vou pensar com carinho... (Bloqueado)</span>
           </button>
 
-          <!-- Botão NÃO Bloqueado com Feedback Divertido -->
+          <!-- Botão NÃO Bloqueado -->
           <button id="btnNo" class="btn btn-no-blocked" type="button">
             <span class="lock-icon">🔒</span>
             <span>NÃO (Bloqueado pelo sistema)</span>
           </button>
-        </div>
-
-        <!-- Mensagem de resposta charmosa caso clique em pensar -->
-        <div class="think-response" id="thinkResponse">
-          <span class="think-icon">💡</span>
-          <span class="think-text">Pensa com carinho sim... mas não demora, porque a mesa e a carona já estão esperando por você 😉</span>
         </div>
       </div>
     </section>
@@ -566,7 +566,7 @@
             </div>
             <div class="ticket-col">
               <span class="ticket-label">TRANSPORTE</span>
-              <span class="ticket-value" id="ticketRideValue">Moto (Carona Oficial)</span>
+              <span class="ticket-value" id="ticketRideValue">De moto com você</span>
             </div>
           </div>
 

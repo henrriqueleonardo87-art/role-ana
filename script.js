@@ -7,7 +7,7 @@
 const gameState = {
   currentScreen: 0,
   preferences: {
-    ride: 'Na garupa da moto com o Leo',
+    ride: 'De moto com você',
     cuisine: '',
     dateDay: '',
     drink: '',
@@ -32,20 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProgressBar();
 });
 
-// Audio controls
+// Audio controls & priming
 function setupAudioListeners() {
   const soundToggle = document.getElementById('soundToggle');
   const soundIcon = document.getElementById('soundIcon');
+  const voiceAudio = document.getElementById('voiceAudio');
 
   const unlockAudio = () => {
     if (window.soundEngine) {
       window.soundEngine.init();
     }
+    // Desbloqueia o elemento de áudio nativo em dispositivos móveis
+    if (voiceAudio) {
+      voiceAudio.load();
+    }
     document.removeEventListener('click', unlockAudio);
     document.removeEventListener('touchstart', unlockAudio);
   };
-  document.addEventListener('click', unlockAudio);
-  document.addEventListener('touchstart', unlockAudio);
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
 
   if (soundToggle) {
     soundToggle.addEventListener('click', (e) => {
@@ -54,6 +59,9 @@ function setupAudioListeners() {
         const isMuted = window.soundEngine.toggleMute();
         soundIcon.textContent = isMuted ? '🔇' : '🔊';
         soundToggle.style.opacity = isMuted ? '0.5' : '1';
+        if (voiceAudio) {
+          voiceAudio.muted = isMuted;
+        }
       }
     });
   }
@@ -132,11 +140,11 @@ function showBlockedToast(message, icon = '🔒') {
     setTimeout(() => {
       container.innerHTML = '';
     }, 300);
-  }, 4200);
+  }, 4400);
 }
 
 // ==========================================================================
-// FASE 0: BIOMETRIC SCANNER + VOZ SINTETIZADA
+// FASE 0: BIOMETRIC SCANNER + ÁUDIO DE IDENTIFICAÇÃO DO SORRISO
 // ==========================================================================
 function setupBiometricScanner() {
   const btn = document.getElementById('biometricBtn');
@@ -144,6 +152,7 @@ function setupBiometricScanner() {
   const percentText = document.getElementById('scanPercent');
   const msg = document.getElementById('telemetryMsg');
   const voiceBox = document.getElementById('voiceIdentifiedBox');
+  const voiceAudio = document.getElementById('voiceAudio');
   
   if (!btn) return;
 
@@ -159,7 +168,7 @@ function setupBiometricScanner() {
     { p: 38, text: '> Cinco anos se passaram — e você continua com aquela inteligência rara e humor afiado.' },
     { p: 58, text: '> Mulher dedicada, que se cobra tanto e merece uma noite pensada exclusivamente para ela.' },
     { p: 80, text: '> Chegou a hora do nosso primeiro encontro de verdade.' },
-    { p: 98, text: '> Identidade confirmada. Liberando síntese de áudio...' }
+    { p: 98, text: '> Identidade confirmada. Reproduzindo áudio de validação...' }
   ];
 
   const updateTelemetryText = (currentProgress) => {
@@ -191,6 +200,11 @@ function setupBiometricScanner() {
     }
 
     btn.classList.add('scanning');
+
+    // Desbloqueia e pré-carrega o áudio no toque direto do usuário
+    if (voiceAudio) {
+      voiceAudio.load();
+    }
 
     if (navigator.vibrate) {
       navigator.vibrate(30);
@@ -225,22 +239,24 @@ function setupBiometricScanner() {
           window.soundEngine.playChime();
         }
 
-        // Exibe o card de voz visual
+        // Exibe o card de identificação visual na tela
         if (voiceBox) {
           voiceBox.style.display = 'block';
           voiceBox.classList.add('voice-appear');
         }
 
-        // Executa a voz sintetizada solicitada pelo usuário
-        const speechText = 'Pessoa identificada: Ana Gabriela. Característica marcante: Um sorriso lindo, mente brilhante e um deboche sem igual. Acesso liberado.';
+        // Toca o áudio de identificação com voz sintetizada de alta qualidade
         if (window.soundEngine) {
-          window.soundEngine.speakVoice(speechText);
+          window.soundEngine.playIdentifiedVoice();
+        } else if (voiceAudio) {
+          voiceAudio.currentTime = 0;
+          voiceAudio.play().catch(() => {});
         }
 
-        // Transição suave para a tela 1 dando tempo de ouvir e ver
+        // Aguarda a reprodução completa do áudio antes de transicionar suavemente
         setTimeout(() => {
           goToScreen(1); // Vai para o Briefing (Tela 1)
-        }, 3200);
+        }, 4200);
       }
     }, 45);
   };
@@ -284,7 +300,7 @@ function setupBriefingNext() {
 }
 
 // ==========================================================================
-// FASE 2: LOGÍSTICA & TRANSPORTE (COM OPÇÕES BLOQUEADAS UBER E ÔNIBUS)
+// FASE 2: LOGÍSTICA & TRANSPORTE (DE MOTO COM VOCÊ - DEMAIS BLOQUEADAS)
 // ==========================================================================
 function setupQuizPhase1() {
   const optMoto = document.getElementById('optMoto');
@@ -293,22 +309,22 @@ function setupQuizPhase1() {
   const optBus = document.getElementById('optBus');
   const nextBtn = document.getElementById('nextBtn1');
 
-  const selectOption = (selectedEl, unselectedEl, val) => {
-    if (selectedEl) selectedEl.classList.add('selected');
-    if (unselectedEl) unselectedEl.classList.remove('selected');
-    gameState.preferences.ride = val;
-    if (window.soundEngine) window.soundEngine.playSelect();
-  };
-
+  // Opção Única Oficial: DE MOTO COM VOCÊ
   if (optMoto) {
     optMoto.addEventListener('click', () => {
-      selectOption(optMoto, optEncontro, 'Na garupa da moto com o Leo');
+      optMoto.classList.add('selected');
+      gameState.preferences.ride = 'De moto com você';
+      if (window.soundEngine) window.soundEngine.playSelect();
     });
   }
 
+  // Opção Bloqueada: IR SOZINHA / DIRETO NO LOCAL
   if (optEncontro) {
-    optEncontro.addEventListener('click', () => {
-      selectOption(optEncontro, optMoto, 'Nos encontramos direto no restaurante');
+    optEncontro.addEventListener('click', (e) => {
+      e.preventDefault();
+      optEncontro.classList.add('shake');
+      setTimeout(() => optEncontro.classList.remove('shake'), 400);
+      showBlockedToast('🔒 Opção Bloqueada: Nada de ir sozinha! Hoje a carona oficial é de moto com o Leo, você vai ser bem cuidada do início ao fim 😉', '🛵');
     });
   }
 
@@ -318,7 +334,7 @@ function setupQuizPhase1() {
       e.preventDefault();
       optUber.classList.add('shake');
       setTimeout(() => optUber.classList.remove('shake'), 400);
-      showBlockedToast('🚗 Opção Bloqueada: Nada de motorista estranho no trânsito hoje! A carona oficial é de moto com o Leo ou nos encontramos lá 😉', '🚗');
+      showBlockedToast('🚗 Opção Bloqueada: Nada de motorista estranho no trânsito hoje! A carona oficial é de moto com o Leo 😉', '🚗');
     });
   }
 
@@ -417,7 +433,7 @@ function setupQuizPhase3() {
     });
   }
 
-  // Grupos simples de botões
+  // Grupos de escolha
   const setupGroup = (containerId, key) => {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -468,7 +484,7 @@ function runCurationSummary() {
 
   if (previewDate) previewDate.textContent = gameState.preferences.dateDay || 'Final de semana';
   if (previewCuisine) previewCuisine.textContent = gameState.preferences.cuisine || 'Restaurante Exclusivo';
-  if (previewRide) previewRide.textContent = gameState.preferences.ride || 'Carona de moto';
+  if (previewRide) previewRide.textContent = gameState.preferences.ride || 'De moto com você';
 
   let p = 0;
   const interval = setInterval(() => {
@@ -492,51 +508,49 @@ function runCurationSummary() {
 }
 
 // ==========================================================================
-// FASE 6: O CONVITE OFICIAL (COM BOTÃO NÃO BLOQUEADO & RESPOSTAS DIVERTIDAS)
+// FASE 6: O CONVITE OFICIAL (COM OPÇÕES BLOQUEADAS: DITADOR DO ROLÊ)
 // ==========================================================================
 function setupDecisionScreen() {
   const btnYes = document.getElementById('btnYes');
   const btnThink = document.getElementById('btnThink');
   const btnNo = document.getElementById('btnNo');
-  const thinkResponse = document.getElementById('thinkResponse');
 
-  // Respostas divertidas e respeitosas caso ela tente clicar no NÃO
-  const funnyExcuses = [
-    '⛔ Erro 404: Opção "Não" indisponível no sistema do Leo.',
-    '🔒 Acesso Negado: O desenvolvedor passou horas programando essa aplicação com carinho, essa opção está revogada!',
-    '😅 Tentativa de recusa negada: Depois de 5 anos esperando esse rolê, o sistema não aceita essa resposta!',
-    '📊 Diagnóstico do sistema: Nível de esforço e dedicação aos estudos altíssimo. Você merece essa pausa, recusa cancelada!',
-    '🚌 Bloqueio nostálgico: Desde aquele ponto de ônibus em 2021 eu queria esse momento. Tenta clicar no SIM 😉',
-    '✨ Alerta do sistema: A mesa já está na mira e a carona garantida. Clica no "SIM" que a leveza é garantida!'
+  // Respostas com humor de "sou ditador do rolê" caso tente clicar em Não ou Pensar
+  const ditadorExcuses = [
+    '👑 Bloqueado pelo ditador do rolê: Como manda a lei de 2026, a única resposta aceita é SIM! 😂',
+    '🔒 Opção Bloqueada: Hoje eu sou o ditador desse rolê! Já esperamos 5 anos desde 2021, chega de pensar... é SIM ou SIM!',
+    '⛔ Erro 404: Opção revogada pelo desenvolvedor. Clica no "SIM" que é sucesso garantido 😉',
+    '📊 Diagnóstico do sistema: Nível de esforço e dedicação aos estudos altíssimo. O ditador do rolê decretou que você merece esse descanso!',
+    '🚌 Bloqueio nostálgico: Demorou cinco anos desde aquele ponto de ônibus, não dá pra recusar agora!',
+    '✨ Alerta do sistema: A mesa já está na mira e a carona de moto garantida. Aceita logo!'
   ];
   let excuseIndex = 0;
 
-  if (btnThink && thinkResponse) {
-    btnThink.addEventListener('click', () => {
-      thinkResponse.classList.add('visible');
-      if (btnYes) {
-        btnYes.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      if (window.soundEngine) {
-        window.soundEngine.playPop();
-      }
+  // Botão PENSAR COM CARINHO (BLOQUEADO: Sou ditador)
+  if (btnThink) {
+    btnThink.addEventListener('click', (e) => {
+      e.preventDefault();
+      btnThink.classList.add('shake');
+      setTimeout(() => btnThink.classList.remove('shake'), 400);
+
+      showBlockedToast('👑 Bloqueado: Hoje eu sou o ditador desse rolê 😂 Já esperamos 5 anos desde 2021, chega de pensar... é SIM ou SIM!', '👑');
     });
   }
 
-  // Botão NÃO Bloqueado
+  // Botão NÃO (BLOQUEADO: Sou ditador)
   if (btnNo) {
     btnNo.addEventListener('click', (e) => {
       e.preventDefault();
       btnNo.classList.add('shake');
       setTimeout(() => btnNo.classList.remove('shake'), 400);
 
-      const excuse = funnyExcuses[excuseIndex % funnyExcuses.length];
+      const excuse = ditadorExcuses[excuseIndex % ditadorExcuses.length];
       excuseIndex++;
-      showBlockedToast(excuse, '🔒');
+      showBlockedToast(excuse, '👑');
     });
   }
 
-  // Botão SIM
+  // Botão SIM (Único ativo)
   if (btnYes) {
     btnYes.addEventListener('click', () => {
       if (window.soundEngine) {
@@ -581,7 +595,7 @@ function renderBoardingPassTicket() {
 
   const ticketRideValue = document.getElementById('ticketRideValue');
   if (ticketRideValue) {
-    ticketRideValue.textContent = ride || 'Moto (Carona Oficial)';
+    ticketRideValue.textContent = ride || 'De moto com você';
   }
 
   const tags = [
@@ -618,13 +632,13 @@ Confirmando o nosso primeiro rolê oficial${dayHeader}:
 
 📋 O que eu escolhi:
 • Quando: ${dateDay || 'Final de semana que vem'}
-• Como vamos: ${ride || 'Na garupa da moto com o Leo'}
+• Como vamos: ${ride || 'De moto com você'}
 • O que comer: ${cuisine || 'Restaurante exclusivo'}
 • Acompanhamento: ${drink || 'Bebida especial'}
 • Sobremesa: ${dessert || 'Sobremesa'}
 • Vibe: ${vibe || 'Conversa sincera e leveza'}
 
-Já que demorou cinco anos desde aquele ponto de ônibus 😂, te passo a localização certinha pra gente ir! 🛵✨`;
+Já que você bloqueou todas as outras opções 😂 e demorou cinco anos desde aquele ponto de ônibus, te passo a localização certinha pra gente ir! 🛵✨`;
 
   const encodedMsg = encodeURIComponent(message);
   whatsappBtn.href = `https://wa.me/${gameState.hostPhone}?text=${encodedMsg}`;
@@ -641,6 +655,7 @@ function updateCalendarLink() {
     'Anfitrião: Leonardo\n' +
     'Convidada de Honra: Ana Gabriela\n' +
     `Data Escolhida: ${dateDay || 'Final de semana'}\n` +
+    'Transporte: De moto com você\n' +
     'Programação: Gastronomia de alto nível, boa conversa e leveza.'
   );
   const location = encodeURIComponent('Lugar Especial');
@@ -670,8 +685,6 @@ function setupTicketAndActions() {
   const restartBtn = document.getElementById('restartBtn');
   if (restartBtn) {
     restartBtn.addEventListener('click', () => {
-      const thinkResponse = document.getElementById('thinkResponse');
-      if (thinkResponse) thinkResponse.classList.remove('visible');
       goToScreen(0);
     });
   }

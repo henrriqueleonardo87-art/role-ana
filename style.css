@@ -872,7 +872,7 @@ body {
   border-radius: var(--radius-full);
 }
 
-/* OPÇÕES BLOQUEADAS: UBER E ÔNIBUS */
+/* OPÇÕES BLOQUEADAS: UBER, ÔNIBUS, IR SOZINHA */
 .option-card.option-blocked {
   opacity: 0.88;
   background: #fafaf9;
@@ -1275,7 +1275,7 @@ body {
 }
 
 /* ==========================================================================
-   FASE 6: THE INVITATION (COM BOTÃO NÃO BLOQUEADO)
+   FASE 6: THE INVITATION (COM OPÇÕES BLOQUEADAS: SOU DITADOR)
    ========================================================================== */
 .invite-header {
   margin-bottom: 14px;
@@ -1354,30 +1354,18 @@ body {
   box-shadow: 0 8px 26px rgba(190, 18, 60, 0.36);
 }
 
-.btn-think {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: var(--text-dim);
-  font-size: 0.88rem;
-  padding: 12px 16px;
-}
-
-.btn-think:hover {
-  background: #fafafa;
-  color: var(--text-main);
-}
-
-/* BOTÃO NÃO BLOQUEADO */
-.btn-no-blocked {
+/* BOTÕES BLOQUEADOS COM BOM HUMOR */
+.btn-no-blocked, .btn-think-blocked {
   background: #f4f4f5;
   border: 1.5px dashed #d4d4d8;
   color: #71717a;
   font-size: 0.88rem;
   padding: 12px 16px;
   cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-.btn-no-blocked:hover {
+.btn-no-blocked:hover, .btn-think-blocked:hover {
   background: #ebebeb;
   color: #3f3f46;
   border-color: #a1a1aa;
@@ -1385,35 +1373,6 @@ body {
 
 .lock-icon {
   font-size: 0.95rem;
-}
-
-.think-response {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  background: #fff8f9;
-  border: 1px solid rgba(190, 18, 60, 0.2);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  margin-top: 14px;
-  text-align: left;
-}
-
-.think-response.visible {
-  display: flex;
-  animation: screenFadeUp 0.3s ease;
-}
-
-.think-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.think-text {
-  font-size: 0.85rem;
-  color: #9f1239;
-  line-height: 1.4;
-  font-weight: 600;
 }
 
 /* ==========================================================================
