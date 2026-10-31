@@ -77,7 +77,7 @@ body {
 }
 
 /* ==========================================================================
-   AMBIENT GLOWS (SUBTLE & REFINED)
+   AMBIENT GLOWS
    ========================================================================== */
 .ambient-glow {
   position: fixed;
@@ -102,6 +102,53 @@ body {
   background: radial-gradient(circle, rgba(251, 113, 133, 0.25), transparent 70%);
   bottom: 80px;
   left: -60px;
+}
+
+/* ==========================================================================
+   FLOATING TOAST NOTIFICATION (FEEDBACK DIVERTIDO)
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  top: max(env(safe-area-inset-top, 16px), 20px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  z-index: 999;
+  width: calc(100% - 32px);
+  max-width: 420px;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-container.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast-card {
+  background: #18181b;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
+  pointer-events: auto;
+  text-align: left;
+}
+
+.toast-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.toast-text {
+  font-size: 0.85rem;
+  line-height: 1.42;
+  color: #fafafa;
+  font-weight: 500;
 }
 
 /* ==========================================================================
@@ -164,15 +211,14 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  font-size: 0.72rem;
   font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.5px;
 }
 
 .mission-tag {
   color: var(--accent-rose);
-  font-weight: 700;
 }
 
 .step-indicator {
@@ -180,7 +226,7 @@ body {
 }
 
 /* ==========================================================================
-   APP CONTAINER & SCREENS
+   MAIN CONTAINER & SCREEN ARCHITECTURE
    ========================================================================== */
 .app-container {
   width: 100%;
@@ -189,8 +235,7 @@ body {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - 120px);
-  padding-bottom: 24px;
+  align-items: center;
 }
 
 .screen {
@@ -287,8 +332,32 @@ body {
   line-height: 1.5;
 }
 
+/* BADGE DE VOLUME NA FASE 0 */
+.volume-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0f3;
+  border: 1px solid rgba(190, 18, 60, 0.2);
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  color: #9f1239;
+  margin-bottom: 16px;
+  animation: softPulse 2.6s infinite ease-in-out;
+}
+
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(190, 18, 60, 0); }
+  50% { transform: scale(1.02); box-shadow: 0 4px 14px rgba(190, 18, 60, 0.15); }
+}
+
+.volume-hint-icon {
+  font-size: 1rem;
+}
+
 /* ==========================================================================
-   CARDS & STORY EDITORIAL
+   CARDS & PERSONAL LETTER EDITORIAL
    ========================================================================== */
 .card {
   width: 100%;
@@ -300,6 +369,67 @@ body {
   padding: 24px 20px;
   box-shadow: var(--shadow-card);
   margin-bottom: 18px;
+}
+
+/* CARTA PESSOAL SOBRE A CORRERIA DELA */
+.personal-letter-box {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(190, 18, 60, 0.16);
+  border-left: 4.5px solid var(--accent-rose);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  text-align: left;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.letter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9f1239;
+  background: #ffe4e8;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 10px;
+}
+
+.letter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-rose);
+}
+
+.letter-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.letter-paragraph {
+  font-size: 0.88rem;
+  color: #3f3f46;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.letter-quote {
+  font-size: 0.84rem;
+  font-style: italic;
+  color: #9f1239;
+  font-weight: 600;
+  background: #fff5f7;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-top: 8px;
 }
 
 .dossier-grid {
@@ -479,6 +609,8 @@ body {
 
 .fingerprint-pulse-wrapper {
   position: relative;
+  width: 140px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -486,65 +618,63 @@ body {
 
 .pulse-ring {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  border: 1.5px solid rgba(190, 18, 60, 0.28);
+  border: 1px solid rgba(190, 18, 60, 0.25);
   pointer-events: none;
-  animation: pulseRingAnim 2.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: pulseOut 2.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 
-.pulse-ring.ring-2 {
+.ring-2 {
   animation-delay: 1.4s;
 }
 
-@keyframes pulseRingAnim {
-  0% { transform: scale(0.96); opacity: 0.6; }
-  60% { transform: scale(1.3); opacity: 0.1; }
-  100% { transform: scale(1.45); opacity: 0; }
+@keyframes pulseOut {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }
 
 .biometric-btn {
-  position: relative;
-  width: 122px;
-  height: 122px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid var(--border-accent);
+  border: 2px solid var(--accent-rose);
   color: var(--accent-rose);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 0 8px 24px rgba(190, 18, 60, 0.14);
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
   overflow: hidden;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  z-index: 2;
+  box-shadow: 0 8px 24px rgba(190, 18, 60, 0.16);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: none;
 }
 
 .biometric-btn:hover {
-  border-color: var(--accent-rose);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(190, 18, 60, 0.2);
+  transform: scale(1.03);
+  box-shadow: 0 10px 28px rgba(190, 18, 60, 0.22);
 }
 
 .biometric-btn:active,
 .biometric-btn.scanning {
   transform: scale(0.96);
-  border-color: var(--accent-rose);
-  box-shadow: 0 0 28px rgba(190, 18, 60, 0.35);
+  background: #fff0f3;
 }
 
 .biometric-btn.success {
-  background: #ecfdf5;
   border-color: var(--accent-green);
   color: var(--accent-green);
-  box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+  background: #ecfdf5;
 }
 
 .scan-laser {
@@ -612,6 +742,73 @@ body {
   margin-top: 6px;
 }
 
+/* FEEDBACK DE VOZ VISUAL */
+.voice-identified-box {
+  width: 100%;
+  background: #fff8f9;
+  border: 1.5px solid var(--accent-rose);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.voice-appear {
+  animation: screenFadeUp 0.35s ease forwards;
+}
+
+.voice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.voice-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-rose);
+  letter-spacing: 0.6px;
+}
+
+.voice-wave-anim {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 12px;
+}
+
+.voice-wave-anim span {
+  width: 2.5px;
+  background: var(--accent-rose);
+  border-radius: 2px;
+  animation: soundBar 0.8s ease-in-out infinite alternate;
+}
+
+.voice-wave-anim span:nth-child(1) { height: 4px; animation-delay: 0.1s; }
+.voice-wave-anim span:nth-child(2) { height: 12px; animation-delay: 0.3s; }
+.voice-wave-anim span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+.voice-wave-anim span:nth-child(4) { height: 6px; animation-delay: 0.4s; }
+
+@keyframes soundBar {
+  0% { height: 3px; }
+  100% { height: 12px; }
+}
+
+.voice-body {
+  font-size: 0.84rem;
+  color: #27272a;
+  line-height: 1.48;
+}
+
+.voice-highlight {
+  display: block;
+  font-weight: 700;
+  color: var(--accent-green);
+  margin-top: 4px;
+}
+
 /* ==========================================================================
    OPTION CARDS (LOGISTICS & CUISINE)
    ========================================================================== */
@@ -675,6 +872,43 @@ body {
   border-radius: var(--radius-full);
 }
 
+/* OPÇÕES BLOQUEADAS: UBER E ÔNIBUS */
+.option-card.option-blocked {
+  opacity: 0.88;
+  background: #fafaf9;
+  border-color: #e4e4e7;
+  cursor: pointer;
+}
+
+.option-card.option-blocked:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.blocked-badge {
+  position: absolute;
+  top: -9px;
+  right: 14px;
+  background: #52525b;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.tag-blocked {
+  color: #71717a !important;
+}
+
+.lock-indicator {
+  font-size: 1rem;
+  color: #a1a1aa;
+  flex-shrink: 0;
+}
+
 .option-emoji {
   font-size: 1.7rem;
   line-height: 1;
@@ -729,7 +963,7 @@ body {
 }
 
 /* ==========================================================================
-   SUB-QUIZ BLOCKS & PILLS
+   SUB-QUIZ BLOCKS & PILLS (PLANEJAMENTO DE DETALHES)
    ========================================================================== */
 .sub-quiz-block {
   width: 100%;
@@ -744,8 +978,8 @@ body {
 
 .quiz-block-header {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: 10px;
 }
 
@@ -762,6 +996,12 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.quiz-header-text {
+  display: flex;
+  flex-direction: column;
 }
 
 .quiz-sub-label {
@@ -770,6 +1010,13 @@ body {
   font-weight: 700;
   font-size: 0.92rem;
   color: var(--text-main);
+  line-height: 1.3;
+}
+
+.quiz-sub-hint {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 1px;
 }
 
 .compact-options {
@@ -806,6 +1053,67 @@ body {
   border-color: var(--accent-rose);
   color: #881337;
   font-weight: 700;
+}
+
+.pill-custom {
+  border-style: dashed;
+}
+
+/* CAMPO DINÂMICO DE OUTRA DATA */
+.custom-date-container {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #fff8f9;
+  border: 1px solid rgba(190, 18, 60, 0.16);
+  border-radius: var(--radius-md);
+  animation: screenFadeUp 0.25s ease;
+}
+
+.custom-date-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.custom-date-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-date-input {
+  width: 100%;
+  padding: 10px 38px 10px 12px;
+  background: #ffffff;
+  border: 1.5px solid rgba(190, 18, 60, 0.25);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.custom-date-input:focus {
+  border-color: var(--accent-rose);
+  box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.12);
+}
+
+.custom-date-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.custom-date-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 5px;
 }
 
 /* ==========================================================================
@@ -864,7 +1172,7 @@ body {
 }
 
 /* ==========================================================================
-   FASE 5: CURATION SUMMARY (ELEGANTE & SÓBRIO)
+   FASE 5: CURATION SUMMARY
    ========================================================================== */
 .computing-box {
   width: 100%;
@@ -967,7 +1275,7 @@ body {
 }
 
 /* ==========================================================================
-   FASE 6: THE INVITATION (MADURO, SEGURO, ELEGANTE)
+   FASE 6: THE INVITATION (COM BOTÃO NÃO BLOQUEADO)
    ========================================================================== */
 .invite-header {
   margin-bottom: 14px;
@@ -1059,6 +1367,26 @@ body {
   color: var(--text-main);
 }
 
+/* BOTÃO NÃO BLOQUEADO */
+.btn-no-blocked {
+  background: #f4f4f5;
+  border: 1.5px dashed #d4d4d8;
+  color: #71717a;
+  font-size: 0.88rem;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.btn-no-blocked:hover {
+  background: #ebebeb;
+  color: #3f3f46;
+  border-color: #a1a1aa;
+}
+
+.lock-icon {
+  font-size: 0.95rem;
+}
+
 .think-response {
   display: none;
   align-items: center;
@@ -1086,6 +1414,22 @@ body {
   color: #9f1239;
   line-height: 1.4;
   font-weight: 600;
+}
+
+/* ==========================================================================
+   SHAKE KEYFRAMES PARA CLIQUES BLOQUEADOS
+   ========================================================================== */
+@keyframes headShake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: headShake 0.4s ease-in-out;
 }
 
 /* ==========================================================================

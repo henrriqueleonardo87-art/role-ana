@@ -32,6 +32,9 @@
     <span id="soundIcon" class="sound-icon">🔊</span>
   </button>
 
+  <!-- Interactive Floating Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
   <!-- Progress Bar -->
   <div class="progress-container" id="progressContainer">
     <div class="progress-bar">
@@ -57,6 +60,12 @@
       <p class="subtitle">
         Uma proposta pensada exclusivamente para você após cinco anos daquele ponto de ônibus. Toque no leitor para confirmar sua identidade:
       </p>
+
+      <!-- Badge de recomendação de áudio para ouvir a identificação -->
+      <div class="volume-hint-badge" id="volumeHintBadge">
+        <span class="volume-hint-icon">🔊</span>
+        <span class="volume-hint-text"><strong>Aumente o volume:</strong> Identificação de voz do sistema ativada</span>
+      </div>
 
       <div class="card scanner-card">
         <!-- Telemetria elegante em tempo real -->
@@ -102,18 +111,50 @@
         <div class="scanner-tip">
           Mantenha o toque para validar o acesso
         </div>
+
+        <!-- Feedback de voz visual (após identificação) -->
+        <div class="voice-identified-box" id="voiceIdentifiedBox" style="display: none;">
+          <div class="voice-header">
+            <span class="voice-wave-anim">
+              <span></span><span></span><span></span><span></span>
+            </span>
+            <span class="voice-title">SÍNTESE DE VOZ // IDENTIFICAÇÃO</span>
+          </div>
+          <p class="voice-body" id="voiceBodyText">
+            "Pessoa identificada: <strong>Ana Gabriela</strong>.<br>
+            Característica marcante: <strong>Um sorriso lindo</strong>, inteligência admirável e um deboche sem igual.<br>
+            <span class="voice-highlight">Acesso liberado com honras.</span>"
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- ==============================================
-         FASE 1: O MOTIVO (A MENSAGEM SINCERA)
+         FASE 1: O MOTIVO (CUIDADO COM A ROTINA & SINCERIDADE)
          ============================================== -->
     <section class="screen" id="screen1">
       <div class="code-badge">
         <span class="dot"></span> REGISTRO // 2021 — 2026
       </div>
 
-      <h1 class="main-title">Por que eu criei uma aplicação para te convidar?</h1>
+      <!-- Carta pessoal direta sobre a correria dela -->
+      <div class="personal-letter-box">
+        <div class="letter-badge">
+          <span class="letter-dot"></span> DE: LEONARDO // PARA: ANA GABRIELA
+        </div>
+        <h2 class="letter-title">Eu entendo a sua correria e o seu momento.</h2>
+        <p class="letter-paragraph">
+          Sei o quanto você estuda, trabalha e se cobra diariamente para dar conta de tudo com perfeição. Conheço o seu esforço e a dedicação que você coloca em cada detalhe.
+        </p>
+        <p class="letter-paragraph">
+          Mas exatamente por entender o peso dessa rotina, eu programei essa aplicação: <strong>quero te levar para você curtir, respirar, comer algo incrível e sair um pouco de tudo isso</strong>. Você merece muito uma noite de descanso e leveza.
+        </p>
+        <div class="letter-quote">
+          "Você merece um momento leve, sem cobranças e feito com carinho para você."
+        </div>
+      </div>
+
+      <h1 class="main-title">Por que uma aplicação para te convidar?</h1>
       <p class="subtitle">
         Depois de cinco anos nos conhecendo, um convite comum por mensagem não faria jus a quem você é:
       </p>
@@ -162,18 +203,18 @@
           <span class="reassurance-chip">COMPROMISSO</span>
         </div>
         <p class="reassurance-text">
-          Sem jogos e sem pressa: você merece uma noite de alto nível, pensada para você se sentir à vontade. Você escolhe as preferências, e eu cuido de toda a organização.
+          Sem jogos e sem pressa: você escolhe como prefere a noite, e eu cuido de toda a organização e da reserva.
         </p>
       </div>
 
       <button id="briefingNextBtn" class="btn btn-primary">
-        <span>DEFINIR OS DETALHES DO ENCONTRO</span>
+        <span>DEFINIR OS DETALHES DO ROLÊ</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
 
     <!-- ==============================================
-         FASE 2: LOGÍSTICA & TRANSPORTE (SEGURO E CONFIANTE)
+         FASE 2: LOGÍSTICA & TRANSPORTE
          ============================================== -->
     <section class="screen" id="screen2">
       <div class="code-badge">
@@ -182,7 +223,7 @@
 
       <h2 class="section-title">Como você prefere chegar? 🏍️</h2>
       <p class="subtitle">
-        Em 2021 foi no ponto de ônibus. Para este encontro, a carona é de moto com todo o cuidado:
+        Escolha o transporte para a noite. A carona oficial é garantida com toda segurança:
       </p>
 
       <div class="options-grid" id="motoGrid">
@@ -204,9 +245,33 @@
           <div class="option-content">
             <div class="option-category">FLEXIBILIDADE</div>
             <div class="option-title">Nos encontramos direto no local</div>
-            <div class="option-desc">Se preferir ir direto por conta própria, total flexibilidade: garanto a mesa reservada e te espero lá.</div>
+            <div class="option-desc">Se preferir ir direto por conta própria, total tranquilidade: garanto a mesa reservada e te espero lá.</div>
           </div>
           <div class="check-circle">✓</div>
+        </button>
+
+        <!-- OPÇÃO 3: UBER (BLOQUEADO) -->
+        <button class="option-card option-blocked" id="optUber" type="button" data-type="blocked-uber">
+          <div class="blocked-badge">🔒 BLOQUEADO</div>
+          <span class="option-emoji">🚗</span>
+          <div class="option-content">
+            <div class="option-category tag-blocked">INDISPONÍVEL</div>
+            <div class="option-title">Ir de Uber</div>
+            <div class="option-desc">Nada de motorista desconhecido com rádio estranho. Hoje você vai comigo ou nos vemos lá!</div>
+          </div>
+          <div class="lock-indicator">🔒</div>
+        </button>
+
+        <!-- OPÇÃO 4: ÔNIBUS (BLOQUEADO) -->
+        <button class="option-card option-blocked" id="optBus" type="button" data-type="blocked-bus">
+          <div class="blocked-badge">🔒 2021 ONLY</div>
+          <span class="option-emoji">🚌</span>
+          <div class="option-content">
+            <div class="option-category tag-blocked">NOSTALGIA APENAS</div>
+            <div class="option-title">Ir de Ônibus</div>
+            <div class="option-desc">O ônibus pro Centro serviu pra puxar assunto em 2021... mas em 2026 o padrão subiu de nível!</div>
+          </div>
+          <div class="lock-indicator">🔒</div>
         </button>
       </div>
 
@@ -221,11 +286,11 @@
          ============================================== -->
     <section class="screen" id="screen3">
       <div class="code-badge">
-        <span class="dot"></span> EXPERIÊNCIA // GASTRONOMIA
+        <span class="dot"></span> EXPERIÊNCIA // ETAPA 01
       </div>
 
-      <h2 class="section-title">O Cardápio: O que combina com você nessa noite? 🍽️</h2>
-      <p class="subtitle">Escolha o estilo culinário que você mais gosta para eu cuidar da reserva:</p>
+      <h2 class="section-title">O que combina com você nessa noite? 🍽️</h2>
+      <p class="subtitle">Escolha o estilo gastronômico que você mais gosta para eu providenciar a reserva:</p>
 
       <div class="options-grid" id="cuisineGrid">
         <button class="option-card" data-key="cuisine" data-val="Italiano / Massas Artesanais">
@@ -233,7 +298,7 @@
           <div class="option-content">
             <div class="option-category">MASSAS & ACONCHEGO</div>
             <div class="option-title">Trattoria & Massas Artesanais</div>
-            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Conforto, boa carta e ambiente acolhedor.</div>
+            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Conforto e ambiente acolhedor.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -280,22 +345,37 @@
          ============================================== -->
     <section class="screen" id="screen4">
       <div class="code-badge">
-        <span class="dot"></span> PLANEJAMENTO // ITINERÁRIO
+        <span class="dot"></span> PLANEJAMENTO // ETAPA 02
       </div>
 
-      <h2 class="section-title">Definindo os últimos detalhes:</h2>
-      <p class="subtitle">Quatro escolhas para alinhar o encontro perfeitamente com você:</p>
+      <h2 class="section-title">Definindo os detalhes do rolê:</h2>
+      <p class="subtitle">Quatro escolhas organizadas para alinhar a noite com o seu ritmo:</p>
 
       <!-- Pergunta 1: O Dia do Rolê -->
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">01</span>
-          <label class="quiz-sub-label">Qual dia fica melhor para você?</label>
+          <div class="quiz-header-text">
+            <label class="quiz-sub-label">Qual dia fica melhor para a sua rotina?</label>
+            <span class="quiz-sub-hint">Selecione uma das opções ou indique outra data</span>
+          </div>
         </div>
+        
         <div class="compact-options" id="dayOptions">
-          <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta-feira que vem</button>
+          <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta que vem</button>
           <button class="pill-btn" data-key="dateDay" data-val="Sábado que vem">✨ Sábado que vem</button>
           <button class="pill-btn" data-key="dateDay" data-val="Domingo que vem">☀️ Domingo que vem</button>
+          <button class="pill-btn pill-custom" id="pillOtherDate" data-key="dateDay" data-val="custom">✍️ Outra data (Você escolhe)</button>
+        </div>
+
+        <!-- Campo Dinâmico para Digitar Outra Data -->
+        <div class="custom-date-container" id="customDateContainer" style="display: none;">
+          <label for="customDateInput" class="custom-date-label">Qual data ou dia da semana fica bom para você?</label>
+          <div class="custom-date-input-wrapper">
+            <input type="text" id="customDateInput" class="custom-date-input" placeholder="Ex: Quarta-feira que vem, dia 15, no próximo mês..." maxlength="60">
+            <span class="custom-date-icon">📅</span>
+          </div>
+          <span class="custom-date-hint">Pode sugerir qualquer dia que se encaixe nos seus estudos e trabalho!</span>
         </div>
       </div>
 
@@ -303,12 +383,15 @@
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">02</span>
-          <label class="quiz-sub-label">O que vamos beber para acompanhar?</label>
+          <div class="quiz-header-text">
+            <label class="quiz-sub-label">O que vamos beber para acompanhar?</label>
+            <span class="quiz-sub-hint">Bebidas leves e refrescantes</span>
+          </div>
         </div>
         <div class="compact-options" id="drinkOptions">
           <button class="pill-btn" data-key="drink" data-val="Soda Italiana de Frutas">🫐 Soda Italiana Artesanal</button>
           <button class="pill-btn" data-key="drink" data-val="Suco Natural Especial">🍹 Suco Natural Especial</button>
-          <button class="pill-btn" data-key="drink" data-val="Refrigerante com Gelo e Limão">🥤 Refri bem gelado com limão</button>
+          <button class="pill-btn" data-key="drink" data-val="Refrigerante com Gelo e Limão">🥤 Refri com gelo e limão</button>
           <button class="pill-btn" data-key="drink" data-val="Café Especial ou Espresso">☕ Café Especial / Espresso</button>
         </div>
       </div>
@@ -317,7 +400,10 @@
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">03</span>
-          <label class="quiz-sub-label">A sobremesa:</label>
+          <div class="quiz-header-text">
+            <label class="quiz-sub-label">A sobremesa:</label>
+            <span class="quiz-sub-hint">Para fechar a noite bem</span>
+          </div>
         </div>
         <div class="compact-options" id="dessertOptions">
           <button class="pill-btn" data-key="dessert" data-val="Petit Gâteau Clássico">🍫 Petit Gâteau clássico</button>
@@ -330,12 +416,15 @@
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">04</span>
-          <label class="quiz-sub-label">A atmosfera da noite:</label>
+          <div class="quiz-header-text">
+            <label class="quiz-sub-label">A atmosfera da noite:</label>
+            <span class="quiz-sub-hint">O objetivo principal do encontro</span>
+          </div>
         </div>
         <div class="compact-options" id="vibeOptions">
           <button class="pill-btn" data-key="vibe" data-val="Conversa sincera, risadas e leveza">🕯️ Conversa sincera, risadas e leveza</button>
           <button class="pill-btn" data-key="vibe" data-val="Lembrar da história de 2021">😼 Rir da história do ônibus em 2021</button>
-          <button class="pill-btn" data-key="vibe" data-val="Uma noite para desacelerar e curtir">✨ Uma noite especial para você relaxar</button>
+          <button class="pill-btn" data-key="vibe" data-val="Uma noite para desacelerar e curtir">✨ Desacelerar da rotina e curtir</button>
         </div>
       </div>
 
@@ -346,7 +435,7 @@
     </section>
 
     <!-- ==============================================
-         FASE 5: RESUMO DO ITINERÁRIO (ELEGANTE & SÓBRIO)
+         FASE 5: RESUMO DO ITINERÁRIO (CURADORIA LIMPA)
          ============================================== -->
     <section class="screen" id="screen5">
       <div class="computing-box">
@@ -388,7 +477,7 @@
     </section>
 
     <!-- ==============================================
-         FASE 6: O CONVITE OFICIAL (MADURO & CHARMOSO)
+         FASE 6: O CONVITE OFICIAL
          ============================================== -->
     <section class="screen" id="screen6">
       <div class="code-badge">
@@ -414,15 +503,21 @@
           Você aceita sair comigo para esse rolê especial na <strong id="inviteDaySpan">data escolhida</strong>? Prometo boa conversa, risadas e uma noite impecável.
         </p>
 
-        <!-- Botões Confiantes e Maduros -->
+        <!-- Botões de Decisão: Sim, Pensar e Não (Bloqueado) -->
         <div class="action-decision-box">
-          <button id="btnYes" class="btn btn-yes">
+          <button id="btnYes" class="btn btn-yes" type="button">
             <span>SIM, COM CERTEZA!</span>
             <span class="arrow-icon">→</span>
           </button>
 
           <button id="btnThink" class="btn btn-think" type="button">
-            <span>Vou pensar com carinho...</span>
+            <span>Vou pensar com carinho... 💭</span>
+          </button>
+
+          <!-- Botão NÃO Bloqueado com Feedback Divertido -->
+          <button id="btnNo" class="btn btn-no-blocked" type="button">
+            <span class="lock-icon">🔒</span>
+            <span>NÃO (Bloqueado pelo sistema)</span>
           </button>
         </div>
 
@@ -467,7 +562,7 @@
           <div class="ticket-row">
             <div class="ticket-col">
               <span class="ticket-label">DATA ESCOLHIDA</span>
-              <span class="ticket-value highlight" id="ticketDateValue">Sexta-feira que vem</span>
+              <span class="ticket-value highlight" id="ticketDateValue">Sexta que vem</span>
             </div>
             <div class="ticket-col">
               <span class="ticket-label">TRANSPORTE</span>

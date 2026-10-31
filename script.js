@@ -85,8 +85,8 @@ function updateProgressBar() {
     { fill: '14%', step: 'Identificação', tag: 'ACESSO RESERVADO' },
     { fill: '28%', step: 'O Motivo', tag: 'REGISTRO // 2021-2026' },
     { fill: '44%', step: 'Transporte', tag: 'LOGÍSTICA // ROTA' },
-    { fill: '60%', step: 'Gastronomia', tag: 'EXPERIÊNCIA // MENU' },
-    { fill: '76%', step: 'Detalhes', tag: 'ITINERÁRIO // DETALHES' },
+    { fill: '60%', step: 'Gastronomia', tag: 'EXPERIÊNCIA // ETAPA 01' },
+    { fill: '76%', step: 'Detalhes', tag: 'PLANEJAMENTO // ETAPA 02' },
     { fill: '88%', step: 'Organizando...', tag: 'SISTEMA // PREPARAÇÃO' },
     { fill: '96%', step: 'O Convite', tag: 'DECISÃO // CONVITE' },
     { fill: '100%', step: 'Confirmado', tag: 'ENCONTRO CONFIRMADO' }
@@ -99,13 +99,51 @@ function updateProgressBar() {
 }
 
 // ==========================================================================
-// FASE 0: BIOMETRIC SCANNER (CADÊNCIA CALMA E ELEGANTE)
+// TOAST NOTIFICATION SYSTEM (PARA BOTÕES BLOQUEADOS COM BOM HUMOR)
+// ==========================================================================
+let toastTimeout = null;
+function showBlockedToast(message, icon = '🔒') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+  }
+
+  container.innerHTML = `
+    <div class="toast-card toast-shake">
+      <span class="toast-icon">${icon}</span>
+      <span class="toast-text">${message}</span>
+    </div>
+  `;
+
+  container.classList.add('visible');
+
+  if (window.soundEngine) {
+    window.soundEngine.playBlockedSound();
+  }
+
+  if (navigator.vibrate) {
+    navigator.vibrate([40, 30, 40]);
+  }
+
+  toastTimeout = setTimeout(() => {
+    container.classList.remove('visible');
+    setTimeout(() => {
+      container.innerHTML = '';
+    }, 300);
+  }, 4200);
+}
+
+// ==========================================================================
+// FASE 0: BIOMETRIC SCANNER + VOZ SINTETIZADA
 // ==========================================================================
 function setupBiometricScanner() {
   const btn = document.getElementById('biometricBtn');
   const fill = document.getElementById('scanProgressFill');
   const percentText = document.getElementById('scanPercent');
   const msg = document.getElementById('telemetryMsg');
+  const voiceBox = document.getElementById('voiceIdentifiedBox');
   
   if (!btn) return;
 
@@ -114,14 +152,14 @@ function setupBiometricScanner() {
   let isCompleted = false;
   let resetTimeout = null;
 
-  // Checkpoints maduros e respeitosos (~10 segundos totais)
+  // Checkpoints maduros e respeitosos (~10 segundos)
   const telemetryCheckpoints = [
     { p: 2, text: '> Acesso verificado: Ana Gabriela.' },
     { p: 18, text: '> Resgatando a história: O ponto de ônibus em 2021 e a velha desculpa do Centro.' },
     { p: 38, text: '> Cinco anos se passaram — e você continua com aquela inteligência rara e humor afiado.' },
     { p: 58, text: '> Mulher dedicada, que se cobra tanto e merece uma noite pensada exclusivamente para ela.' },
     { p: 80, text: '> Chegou a hora do nosso primeiro encontro de verdade.' },
-    { p: 98, text: '> Convite exclusivo liberado com sucesso.' }
+    { p: 98, text: '> Identidade confirmada. Liberando síntese de áudio...' }
   ];
 
   const updateTelemetryText = (currentProgress) => {
@@ -158,6 +196,7 @@ function setupBiometricScanner() {
       navigator.vibrate(30);
     }
     if (window.soundEngine) {
+      window.soundEngine.init();
       window.soundEngine.playScanHum();
     }
 
@@ -180,15 +219,28 @@ function setupBiometricScanner() {
         btn.classList.add('success');
         
         if (navigator.vibrate) {
-          navigator.vibrate([50, 40, 80]);
+          navigator.vibrate([60, 40, 100]);
         }
         if (window.soundEngine) {
           window.soundEngine.playChime();
         }
 
+        // Exibe o card de voz visual
+        if (voiceBox) {
+          voiceBox.style.display = 'block';
+          voiceBox.classList.add('voice-appear');
+        }
+
+        // Executa a voz sintetizada solicitada pelo usuário
+        const speechText = 'Pessoa identificada: Ana Gabriela. Característica marcante: Um sorriso lindo, mente brilhante e um deboche sem igual. Acesso liberado.';
+        if (window.soundEngine) {
+          window.soundEngine.speakVoice(speechText);
+        }
+
+        // Transição suave para a tela 1 dando tempo de ouvir e ver
         setTimeout(() => {
-          goToScreen(1); // Go to Briefing (Screen 1)
-        }, 1200);
+          goToScreen(1); // Vai para o Briefing (Tela 1)
+        }, 3200);
       }
     }, 45);
   };
@@ -199,7 +251,7 @@ function setupBiometricScanner() {
     btn.classList.remove('scanning');
     
     if (scanProgress < 100) {
-      msg.textContent = '> Leitura pausada. Mantenha o dedo pressionado para continuar...';
+      msg.textContent = '> Leitura pausada. Mantenha o polegar no leitor para continuar...';
       resetTimeout = setTimeout(() => {
         scanProgress = 0;
         if (fill) fill.style.width = '0%';
@@ -232,11 +284,13 @@ function setupBriefingNext() {
 }
 
 // ==========================================================================
-// FASE 2: LOGÍSTICA & TRANSPORTE (SEGURO E RESPEITOSO)
+// FASE 2: LOGÍSTICA & TRANSPORTE (COM OPÇÕES BLOQUEADAS UBER E ÔNIBUS)
 // ==========================================================================
 function setupQuizPhase1() {
   const optMoto = document.getElementById('optMoto');
   const optEncontro = document.getElementById('optEncontro');
+  const optUber = document.getElementById('optUber');
+  const optBus = document.getElementById('optBus');
   const nextBtn = document.getElementById('nextBtn1');
 
   const selectOption = (selectedEl, unselectedEl, val) => {
@@ -255,6 +309,26 @@ function setupQuizPhase1() {
   if (optEncontro) {
     optEncontro.addEventListener('click', () => {
       selectOption(optEncontro, optMoto, 'Nos encontramos direto no restaurante');
+    });
+  }
+
+  // Opção Bloqueada: UBER
+  if (optUber) {
+    optUber.addEventListener('click', (e) => {
+      e.preventDefault();
+      optUber.classList.add('shake');
+      setTimeout(() => optUber.classList.remove('shake'), 400);
+      showBlockedToast('🚗 Opção Bloqueada: Nada de motorista estranho no trânsito hoje! A carona oficial é de moto com o Leo ou nos encontramos lá 😉', '🚗');
+    });
+  }
+
+  // Opção Bloqueada: ÔNIBUS
+  if (optBus) {
+    optBus.addEventListener('click', (e) => {
+      e.preventDefault();
+      optBus.classList.add('shake');
+      setTimeout(() => optBus.classList.remove('shake'), 400);
+      showBlockedToast('🚌 Opção Bloqueada: O ônibus pro Centro cumpriu a missão em 2021 pra gente se conhecer. Mas em 2026 o rolê é de alto nível!', '🚌');
     });
   }
 
@@ -290,9 +364,60 @@ function setupQuizPhase2() {
 }
 
 // ==========================================================================
-// FASE 4: DETALHES DO ROLÊ (DIA, BEBIDA, DOCE, VIBE)
+// FASE 4: DETALHES DO ROLÊ (DIA, OUTRA DATA, BEBIDA, DOCE, VIBE)
 // ==========================================================================
 function setupQuizPhase3() {
+  const customDateContainer = document.getElementById('customDateContainer');
+  const customDateInput = document.getElementById('customDateInput');
+  const pillOtherDate = document.getElementById('pillOtherDate');
+  const dayPills = document.querySelectorAll('#dayOptions .pill-btn');
+
+  // Gerenciamento dos dias (incluindo opção personalizada)
+  dayPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      dayPills.forEach(p => p.classList.remove('selected'));
+      pill.classList.add('selected');
+
+      if (pill.id === 'pillOtherDate') {
+        // Exibe input para ela digitar a data
+        if (customDateContainer) {
+          customDateContainer.style.display = 'block';
+          if (customDateInput) {
+            customDateInput.focus();
+            if (customDateInput.value.trim()) {
+              gameState.preferences.dateDay = `Outra data (${customDateInput.value.trim()})`;
+            } else {
+              gameState.preferences.dateDay = '';
+            }
+          }
+        }
+      } else {
+        // Oculta campo personalizado se escolheu uma das 3 opções
+        if (customDateContainer) {
+          customDateContainer.style.display = 'none';
+        }
+        gameState.preferences.dateDay = pill.dataset.val;
+      }
+
+      if (window.soundEngine) window.soundEngine.playPop();
+      checkPhase3Complete();
+    });
+  });
+
+  // Atualização em tempo real quando ela digita a outra data
+  if (customDateInput) {
+    customDateInput.addEventListener('input', () => {
+      const val = customDateInput.value.trim();
+      if (val) {
+        gameState.preferences.dateDay = `Outra data (${val})`;
+      } else {
+        gameState.preferences.dateDay = '';
+      }
+      checkPhase3Complete();
+    });
+  }
+
+  // Grupos simples de botões
   const setupGroup = (containerId, key) => {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -308,7 +433,6 @@ function setupQuizPhase3() {
     });
   };
 
-  setupGroup('dayOptions', 'dateDay');
   setupGroup('drinkOptions', 'drink');
   setupGroup('dessertOptions', 'dessert');
   setupGroup('vibeOptions', 'vibe');
@@ -318,6 +442,8 @@ function setupQuizPhase3() {
     const nextBtn = document.getElementById('nextBtn3');
     if (dateDay && drink && dessert && vibe && nextBtn) {
       nextBtn.disabled = false;
+    } else if (nextBtn) {
+      nextBtn.disabled = true;
     }
   };
 
@@ -348,6 +474,7 @@ function runCurationSummary() {
   const interval = setInterval(() => {
     p += 8;
     if (p > 100) p = 100;
+
     if (progressFill) progressFill.style.width = `${p}%`;
 
     if (p >= 100) {
@@ -365,12 +492,24 @@ function runCurationSummary() {
 }
 
 // ==========================================================================
-// FASE 6: O CONVITE OFICIAL (MADURO & CHARMOSO)
+// FASE 6: O CONVITE OFICIAL (COM BOTÃO NÃO BLOQUEADO & RESPOSTAS DIVERTIDAS)
 // ==========================================================================
 function setupDecisionScreen() {
   const btnYes = document.getElementById('btnYes');
   const btnThink = document.getElementById('btnThink');
+  const btnNo = document.getElementById('btnNo');
   const thinkResponse = document.getElementById('thinkResponse');
+
+  // Respostas divertidas e respeitosas caso ela tente clicar no NÃO
+  const funnyExcuses = [
+    '⛔ Erro 404: Opção "Não" indisponível no sistema do Leo.',
+    '🔒 Acesso Negado: O desenvolvedor passou horas programando essa aplicação com carinho, essa opção está revogada!',
+    '😅 Tentativa de recusa negada: Depois de 5 anos esperando esse rolê, o sistema não aceita essa resposta!',
+    '📊 Diagnóstico do sistema: Nível de esforço e dedicação aos estudos altíssimo. Você merece essa pausa, recusa cancelada!',
+    '🚌 Bloqueio nostálgico: Desde aquele ponto de ônibus em 2021 eu queria esse momento. Tenta clicar no SIM 😉',
+    '✨ Alerta do sistema: A mesa já está na mira e a carona garantida. Clica no "SIM" que a leveza é garantida!'
+  ];
+  let excuseIndex = 0;
 
   if (btnThink && thinkResponse) {
     btnThink.addEventListener('click', () => {
@@ -384,6 +523,20 @@ function setupDecisionScreen() {
     });
   }
 
+  // Botão NÃO Bloqueado
+  if (btnNo) {
+    btnNo.addEventListener('click', (e) => {
+      e.preventDefault();
+      btnNo.classList.add('shake');
+      setTimeout(() => btnNo.classList.remove('shake'), 400);
+
+      const excuse = funnyExcuses[excuseIndex % funnyExcuses.length];
+      excuseIndex++;
+      showBlockedToast(excuse, '🔒');
+    });
+  }
+
+  // Botão SIM
   if (btnYes) {
     btnYes.addEventListener('click', () => {
       if (window.soundEngine) {
@@ -404,8 +557,8 @@ function fireTastefulConfetti() {
   if (!window.confetti) return;
 
   confetti({
-    particleCount: 70,
-    spread: 60,
+    particleCount: 75,
+    spread: 65,
     origin: { y: 0.65 },
     colors: ['#e11d48', '#be123c', '#fb7185', '#d97706', '#f59e0b', '#ffffff']
   });
@@ -458,7 +611,7 @@ function updateWhatsAppLink() {
   const dayHeader = dateDay ? ` (${dateDay})` : '';
 
   const message = 
-`Oi Leo! Vi o convite que você programou... achei de muito bom gosto e super especial.
+`Oi Leo! Vi a aplicação que você programou... achei de muito bom gosto e super especial.
 
 Confirmando o nosso primeiro rolê oficial${dayHeader}:
 ✅ CONVITE ACEITO!
