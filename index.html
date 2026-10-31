@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵</title>
+  <title>Ana Gabriela & Leonardo // O Convite</title>
 
-  <meta name="description" content="De 2021 no ponto de ônibus para 2026 na garupa da moto: o convite sob medida para Ana Gabriela.">
-  <meta property="og:title" content="Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵">
-  <meta property="og:description" content="Autenticação biométrica necessária para acessar o convite exclusivo da Ana.">
-  <meta name="theme-color" content="#fdf2f4">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏍️</text></svg>">
+  <meta name="description" content="Cinco anos depois daquele ponto de ônibus em 2021: um convite reservado para Ana Gabriela.">
+  <meta property="og:title" content="Ana Gabriela & Leonardo // O Convite">
+  <meta property="og:description" content="Acesso exclusivo ao convite pessoal de Ana Gabriela.">
+  <meta name="theme-color" content="#fdf7f8">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -23,18 +23,9 @@
 </head>
 
 <body>
-  <!-- Ambient Soft Background Lighting & Floating Sparkles -->
+  <!-- Ambient Soft Background Lighting -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
-  
-  <div class="sparkles-container" aria-hidden="true">
-    <span class="sparkle s1">✦</span>
-    <span class="sparkle s2">✧</span>
-    <span class="sparkle s3">✦</span>
-    <span class="sparkle s4">✧</span>
-    <span class="sparkle s5">✦</span>
-    <span class="sparkle s6">✧</span>
-  </div>
 
   <!-- Audio Control Toggle -->
   <button id="soundToggle" class="sound-toggle" aria-label="Som" title="Ligar/Desligar Som">
@@ -47,7 +38,7 @@
       <div class="progress-fill" id="progressFill"></div>
     </div>
     <div class="progress-info">
-      <span class="mission-tag" id="missionTag">SECURITY // BIOMETRICS</span>
+      <span class="mission-tag" id="missionTag">ACESSO RESERVADO</span>
       <span class="step-indicator" id="stepIndicator">Identificação</span>
     </div>
   </div>
@@ -55,38 +46,38 @@
   <main class="app-container" id="appContainer">
 
     <!-- ==============================================
-         FASE 0: A LEITURA DA DIGITAL (PRIMEIRA COISA!)
+         FASE 0: ACESSO EXCLUSIVO (A IDENTIFICAÇÃO)
          ============================================== -->
     <section class="screen active" id="screen0">
       <div class="code-badge">
-        <span class="dot"></span> auth.identifyVIP("Ana Gabriela")
+        <span class="dot"></span> CONVITE PESSOAL // ANA GABRIELA
       </div>
 
-      <h1 class="main-title">Acesso Exclusivo</h1>
+      <h1 class="main-title">Acesso Reservado</h1>
       <p class="subtitle">
-        Este software foi programado linha por linha para uma única pessoa no mundo: <strong>Ana Gabriela</strong>. Pressione a digital para descriptografar o seu convite:
+        Uma proposta pensada exclusivamente para você após cinco anos daquele ponto de ônibus. Toque no leitor para confirmar sua identidade:
       </p>
 
       <div class="card scanner-card">
-        <!-- Telemetria animada em tempo real durante a leitura -->
+        <!-- Telemetria elegante em tempo real -->
         <div class="telemetry-box" id="telemetryBox">
           <div class="telemetry-header">
             <span class="telemetry-live-dot"></span>
-            <span class="telemetry-label">TELEMETRIA EM TEMPO REAL</span>
+            <span class="telemetry-label">SISTEMA DE AUTENTICAÇÃO</span>
           </div>
           <p class="telemetry-message" id="telemetryMsg">
-            Toque e mantenha o dedo no sensor biométrico...
+            Toque e mantenha o polegar no sensor para carregar os dados...
           </p>
         </div>
 
-        <!-- Botão de Digital com Halo Pulsante -->
+        <!-- Sensor Biométrico Minimalista -->
         <div class="scanner-zone">
           <div class="fingerprint-pulse-wrapper">
             <div class="pulse-ring ring-1"></div>
             <div class="pulse-ring ring-2"></div>
             <button id="biometricBtn" class="biometric-btn" type="button">
               <span class="fingerprint-icon">
-                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="46" height="46" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"></path>
                   <path d="M14 13.12c0 2.38 0 6.38-1 8.88"></path>
                   <path d="M2 16h.01"></path>
@@ -98,7 +89,7 @@
                 </svg>
               </span>
               <span class="scan-laser" id="scanLaser"></span>
-              <span class="btn-text">SEGURE PARA LER</span>
+              <span class="btn-text">PRESSIONE PARA ACESSAR</span>
             </button>
           </div>
 
@@ -109,22 +100,22 @@
         </div>
 
         <div class="scanner-tip">
-          Mantenha o polegar pressionado para ler os dados do sistema
+          Mantenha o toque para validar o acesso
         </div>
       </div>
     </section>
 
     <!-- ==============================================
-         FASE 1: O BRIEFING DO ENGENHEIRO DE SOFTWARE
+         FASE 1: O MOTIVO (A MENSAGEM SINCERA)
          ============================================== -->
     <section class="screen" id="screen1">
       <div class="code-badge">
-        <span class="dot"></span> dossier.personalInvite("Ana Gabriela")
+        <span class="dot"></span> REGISTRO // 2021 — 2026
       </div>
 
-      <h1 class="main-title">Você não achou que eu ia te chamar de qualquer jeito, né?</h1>
+      <h1 class="main-title">Por que eu criei uma aplicação para te convidar?</h1>
       <p class="subtitle">
-        Cinco anos depois daquele ponto de ônibus em 2021, a gente nunca saiu de um jeito realmente planejado e especial. Então eu decidi mudar isso:
+        Depois de cinco anos nos conhecendo, um convite comum por mensagem não faria jus a quem você é:
       </p>
 
       <div class="dossier-grid">
@@ -132,11 +123,11 @@
         <div class="story-card">
           <div class="story-card-top">
             <span class="story-icon">🚏</span>
-            <span class="story-tag tag-gold">ORIGEM // 2021</span>
+            <span class="story-tag tag-gold">A ORIGEM (2021)</span>
           </div>
           <h3 class="story-title">O Golpe do Ponto de Ônibus</h3>
           <p class="story-desc">
-            "Moça, que horas passa o ônibus pro Centro?" — Confesso: foi a desculpa mais manjada do mundo, mas funcionou. Eu só precisava de um pretexto pra saber seu nome e achar seu Insta.
+            Admito: perguntar que horas passava o ônibus pro Centro foi uma desculpa clássica. Mas era o pretexto que eu precisava para puxar assunto, descobrir seu nome e te encontrar no Instagram. O tempo passou, mas a lembrança ficou.
           </p>
         </div>
 
@@ -148,7 +139,7 @@
           </div>
           <h3 class="story-title">Inteligente, Dedicada & Irônica</h3>
           <p class="story-desc">
-            Você é estudiosa, dá o sangue no que faz e tem aquele deboche afiado que me desconcertou desde o primeiro dia. Você não é qualquer garota — e o jeito de te convidar também não podia ser.
+            Você é estudiosa, dá o sangue em tudo o que faz e tem uma ironia afiada que eu aprendi a admirar. Sei que você se cobra demais — e por isso mesmo merece uma noite onde sua única função seja relaxar e ser bem cuidada.
           </p>
         </div>
 
@@ -156,91 +147,71 @@
         <div class="story-card">
           <div class="story-card-top">
             <span class="story-icon">✨</span>
-            <span class="story-tag tag-purple">O PRIMEIRO ROLÊ</span>
+            <span class="story-tag tag-purple">O MOMENTO</span>
           </div>
           <h3 class="story-title">Nosso Primeiro Encontro de Verdade</h3>
           <p class="story-desc">
-            Já passou da hora da gente ter um rolê decente, pensado exclusivamente pra você. Sem improviso: comida de alto nível, vento no rosto na moto e uma noite inteira pra gente rir e conversar.
+            A gente conversa, ri e se conhece há anos, mas nunca tivemos um encontro de verdade, planejado com calma e atenção. Uma noite especial, com boa comida, conversa sincera e leveza.
           </p>
         </div>
       </div>
 
-      <!-- Caixa Pessoal e Carinhosa -->
+      <!-- Caixa Pessoal e Sincera -->
       <div class="reassurance-box">
         <div class="reassurance-header">
-          <span class="reassurance-chip">ORDEM DO DEV: UMA NOITE FEITA PRA VOCÊ</span>
+          <span class="reassurance-chip">COMPROMISSO</span>
         </div>
         <p class="reassurance-text">
-          Eu ainda sei poucos detalhes dos seus gostos de cor, mas sei o principal: você merece ser bem tratada, valorizada e ter uma noite incrível. Você escolhe os detalhes, e eu cuido de todo o resto.
+          Sem jogos e sem pressa: você merece uma noite de alto nível, pensada para você se sentir à vontade. Você escolhe as preferências, e eu cuido de toda a organização.
         </p>
       </div>
 
       <button id="briefingNextBtn" class="btn btn-primary">
-        <span>ABRIR OS DETALHES DO ROLÊ</span>
+        <span>DEFINIR OS DETALHES DO ENCONTRO</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
 
     <!-- ==============================================
-         FASE 2: A LOGÍSTICA, A MOTO E O DITADOR DO SEQUESTRO
+         FASE 2: LOGÍSTICA & TRANSPORTE (SEGURO E CONFIANTE)
          ============================================== -->
     <section class="screen" id="screen2">
       <div class="code-badge">
-        <span class="dot"></span> logistics.selectVehicle()
+        <span class="dot"></span> LOGÍSTICA // ROTA
       </div>
 
-      <h2 class="section-title">Transporte Oficial: Como a gente vai? 🏍️</h2>
+      <h2 class="section-title">Como você prefere chegar? 🏍️</h2>
       <p class="subtitle">
-        Em 2021 foi no ponto de ônibus... mas pro nosso primeiro encontro de verdade, você vai no melhor assento: na garupa da moto!
+        Em 2021 foi no ponto de ônibus. Para este encontro, a carona é de moto com todo o cuidado:
       </p>
 
-      <div class="context-pill-box">
-        <p>
-          <strong>Aviso sincero:</strong> Sou preto, a cara do suspeito padrão eu já tenho... mas juro que isso NÃO é um sequestro! É só um rolê decente pra gente curtir 😂 Capacete limpo, piloto atencioso e respeito absoluto.
-        </p>
-      </div>
-
-      <!-- Toast humorístico do Ditador -->
-      <div class="dictator-toast" id="dictatorToast">
-        <span class="toast-emoji">🚨</span>
-        <span class="toast-text" id="dictatorToastText">Acesso Negado!</span>
-      </div>
-
       <div class="options-grid" id="motoGrid">
-        <!-- A ÚNICA OPÇÃO REALMENTE PERMITIDA -->
-        <button class="option-card option-real featured-option" id="optMoto" data-key="ride" data-val="Vou de garupa na moto (sem debochar do piloto)">
-          <div class="featured-badge">★ TRANSPORTE OFICIAL ★</div>
+        <!-- OPÇÃO 1: MOTO (RECOMENDADA) -->
+        <button class="option-card featured-option selected" id="optMoto" data-key="ride" data-val="Na garupa da moto com o Leo">
+          <div class="featured-badge">RECOMENDADO</div>
           <span class="option-emoji">🏍️</span>
           <div class="option-content">
+            <div class="option-category">TRANSPORTE OFICIAL</div>
             <div class="option-title">Na garupa da moto com o Leo</div>
-            <div class="option-desc">Transporte oficial de respeito. Capacete extra preparado, vento no rosto e zero perrengue.</div>
+            <div class="option-desc">Passo para te buscar. Capacete extra preparado, atenção no trânsito, vento no rosto e zero preocupação.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
 
-        <!-- OPÇÃO FAKE 1: CARRO (FOGE E BLOQUEIA!) -->
-        <button class="option-card option-fake" id="optCarro" type="button">
-          <span class="option-emoji">🚗</span>
+        <!-- OPÇÃO 2: DIRETO NO RESTAURANTE -->
+        <button class="option-card" id="optEncontro" data-key="ride" data-val="Nos encontramos direto no restaurante">
+          <span class="option-emoji">📍</span>
           <div class="option-content">
-            <div class="option-title">Queria ir de carro...</div>
-            <div class="option-desc">Mais convencional, mas convenhamos: convencional não combina com a gente.</div>
+            <div class="option-category">FLEXIBILIDADE</div>
+            <div class="option-title">Nos encontramos direto no local</div>
+            <div class="option-desc">Se preferir ir direto por conta própria, total flexibilidade: garanto a mesa reservada e te espero lá.</div>
           </div>
-          <div class="lock-indicator">🔒</div>
-        </button>
-
-        <!-- OPÇÃO FAKE 2: ÔNIBUS 2021 (FOGE E BLOQUEIA!) -->
-        <button class="option-card option-fake" id="optUber" type="button">
-          <span class="option-emoji">🚏</span>
-          <div class="option-content">
-            <div class="option-title">Vou de ônibus pro Centro como em 2021!</div>
-            <div class="option-desc">Esperar a linha do Centro no ponto? Aquela desculpa já cumpriu o papel dela!</div>
-          </div>
-          <div class="lock-indicator">🔒</div>
+          <div class="check-circle">✓</div>
         </button>
       </div>
 
-      <button id="nextBtn1" class="btn btn-primary" disabled>
-        <span>CONTINUAR COM A MOTO</span>
+      <button id="nextBtn1" class="btn btn-primary">
+        <span>CONFIRMAR TRANSPORTE</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
@@ -250,11 +221,11 @@
          ============================================== -->
     <section class="screen" id="screen3">
       <div class="code-badge">
-        <span class="dot"></span> menu.select(palette)
+        <span class="dot"></span> EXPERIÊNCIA // GASTRONOMIA
       </div>
 
       <h2 class="section-title">O Cardápio: O que combina com você nessa noite? 🍽️</h2>
-      <p class="subtitle">Já que este é o nosso primeiro encontro oficial, a comida tem que ser de alto nível. Escolha a sua preferência:</p>
+      <p class="subtitle">Escolha o estilo culinário que você mais gosta para eu cuidar da reserva:</p>
 
       <div class="options-grid" id="cuisineGrid">
         <button class="option-card" data-key="cuisine" data-val="Italiano / Massas Artesanais">
@@ -262,7 +233,7 @@
           <div class="option-content">
             <div class="option-category">MASSAS & ACONCHEGO</div>
             <div class="option-title">Trattoria & Massas Artesanais</div>
-            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Conforto e sabor nobre.</div>
+            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Conforto, boa carta e ambiente acolhedor.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -270,9 +241,9 @@
         <button class="option-card" data-key="cuisine" data-val="Japonês Contemporâneo">
           <span class="option-emoji">🍣</span>
           <div class="option-content">
-            <div class="option-category">FRESCO & CONTEMPORÂNEO</div>
+            <div class="option-category">FRESCO & REFINADO</div>
             <div class="option-title">Sushi & Japonês Contemporâneo</div>
-            <div class="option-desc">Cortes frescos selecionados, lâminas de salmão maçaricado, elegância e leveza.</div>
+            <div class="option-desc">Cortes frescos selecionados, lâminas maçaricadas, sofisticação e leveza.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -282,7 +253,7 @@
           <div class="option-content">
             <div class="option-category">BRASA & INTENSIDADE</div>
             <div class="option-title">Parrilla & Cortes Nobres</div>
-            <div class="option-desc">Corte suculento grelhado na brasa no ponto ideal com acompanhamentos especiais.</div>
+            <div class="option-desc">Corte nobre grelhado no ponto ideal com acompanhamentos especiais e sabor marcante.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -291,15 +262,15 @@
           <span class="option-emoji">🍔</span>
           <div class="option-content">
             <div class="option-category">GOURMET & DESCONTRAÍDO</div>
-            <div class="option-title">Burger Artesanal & Entradinhas</div>
-            <div class="option-desc">Blend suculento autoral, queijo artesanal, batata rústica e clima animado.</div>
+            <div class="option-title">Burger Artesanal & Entradas Especiais</div>
+            <div class="option-desc">Blend autoral, queijo artesanal, batatas rústicas e ambiente agradável e moderno.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
       </div>
 
       <button id="nextBtn2" class="btn btn-primary" disabled>
-        <span>CONFIRMAR PREFERÊNCIA</span>
+        <span>CONFIRMAR GASTRONOMIA</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
@@ -309,26 +280,26 @@
          ============================================== -->
     <section class="screen" id="screen4">
       <div class="code-badge">
-        <span class="dot"></span> params.fine_tuning()
+        <span class="dot"></span> PLANEJAMENTO // ITINERÁRIO
       </div>
 
-      <h2 class="section-title">Personalizando os últimos detalhes:</h2>
-      <p class="subtitle">Quatro escolhas pra deixar o rolê 100% afinado com você:</p>
+      <h2 class="section-title">Definindo os últimos detalhes:</h2>
+      <p class="subtitle">Quatro escolhas para alinhar o encontro perfeitamente com você:</p>
 
       <!-- Pergunta 1: O Dia do Rolê -->
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">01</span>
-          <label class="quiz-sub-label">Qual dia fica melhor pra você?</label>
+          <label class="quiz-sub-label">Qual dia fica melhor para você?</label>
         </div>
         <div class="compact-options" id="dayOptions">
-          <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta que vem</button>
+          <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta-feira que vem</button>
           <button class="pill-btn" data-key="dateDay" data-val="Sábado que vem">✨ Sábado que vem</button>
           <button class="pill-btn" data-key="dateDay" data-val="Domingo que vem">☀️ Domingo que vem</button>
         </div>
       </div>
 
-      <!-- Pergunta 2: Bebida sem álcool -->
+      <!-- Pergunta 2: Bebida -->
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">02</span>
@@ -338,7 +309,7 @@
           <button class="pill-btn" data-key="drink" data-val="Soda Italiana de Frutas">🫐 Soda Italiana Artesanal</button>
           <button class="pill-btn" data-key="drink" data-val="Suco Natural Especial">🍹 Suco Natural Especial</button>
           <button class="pill-btn" data-key="drink" data-val="Refrigerante com Gelo e Limão">🥤 Refri bem gelado com limão</button>
-          <button class="pill-btn" data-key="drink" data-val="Café Especial ou Cappuccino">☕ Café Especial / Cappuccino</button>
+          <button class="pill-btn" data-key="drink" data-val="Café Especial ou Espresso">☕ Café Especial / Espresso</button>
         </div>
       </div>
 
@@ -346,12 +317,12 @@
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">03</span>
-          <label class="quiz-sub-label">Chegou a hora da sobremesa:</label>
+          <label class="quiz-sub-label">A sobremesa:</label>
         </div>
         <div class="compact-options" id="dessertOptions">
           <button class="pill-btn" data-key="dessert" data-val="Petit Gâteau Clássico">🍫 Petit Gâteau clássico</button>
           <button class="pill-btn" data-key="dessert" data-val="Gelato Artesanal ou Torta">🍨 Gelato artesanal / Torta</button>
-          <button class="pill-btn" data-key="dessert" data-val="Roubar do Leo com deboche">🥄 "Falo que não quero doce, mas provo do seu"</button>
+          <button class="pill-btn" data-key="dessert" data-val="Dividir a sobremesa com o Leo">🥄 "Provo um pouco da sua"</button>
         </div>
       </div>
 
@@ -359,37 +330,49 @@
       <div class="sub-quiz-block">
         <div class="quiz-block-header">
           <span class="step-num">04</span>
-          <label class="quiz-sub-label">O que não pode faltar nessa noite?</label>
+          <label class="quiz-sub-label">A atmosfera da noite:</label>
         </div>
         <div class="compact-options" id="vibeOptions">
-          <button class="pill-btn" data-key="vibe" data-val="Conversa boa, risadas e leveza">🕯️ Conversa boa, risadas e conexão real</button>
-          <button class="pill-btn" data-key="vibe" data-val="Rir da história do ônibus em 2021">😼 Rir da história do ônibus em 2021 e do golpe do Insta</button>
-          <button class="pill-btn" data-key="vibe" data-val="Você se sentir especial e relaxar de verdade">✨ Uma noite especial onde você se sinta querida</button>
+          <button class="pill-btn" data-key="vibe" data-val="Conversa sincera, risadas e leveza">🕯️ Conversa sincera, risadas e leveza</button>
+          <button class="pill-btn" data-key="vibe" data-val="Lembrar da história de 2021">😼 Rir da história do ônibus em 2021</button>
+          <button class="pill-btn" data-key="vibe" data-val="Uma noite para desacelerar e curtir">✨ Uma noite especial para você relaxar</button>
         </div>
       </div>
 
       <button id="nextBtn3" class="btn btn-primary" disabled>
-        <span>COMPILAR O ROLÊ</span>
+        <span>CONSOLIDAR ROTEIRO</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
 
     <!-- ==============================================
-         FASE 5: COMPILANDO O ALGORITMO (DEV TERMINAL)
+         FASE 5: RESUMO DO ITINERÁRIO (ELEGANTE & SÓBRIO)
          ============================================== -->
     <section class="screen" id="screen5">
       <div class="computing-box">
-        <div class="terminal-card">
-          <div class="terminal-bar">
-            <span class="terminal-dot red"></span>
-            <span class="terminal-dot yellow"></span>
-            <span class="terminal-dot green"></span>
-            <span class="terminal-title">first_date_compiler.sh</span>
+        <div class="curation-card">
+          <div class="curation-header">
+            <span class="curation-tag">ITINERÁRIO PESSOAL</span>
+            <span class="curation-status">ORGANIZANDO RESERVA...</span>
           </div>
-          <div class="terminal-body" id="terminalLogs">
-            <p class="term-line">> npm run init-date --target=ana-gabriela</p>
-            <p class="term-line">> Resgatando logs de 2021... "Que horas passa o busão pro Centro?"</p>
-            <p class="term-line" id="termDynamicLine">> Preparando o primeiro rolê de verdade...</p>
+          
+          <div class="curation-checklist" id="curationList">
+            <div class="check-item done">
+              <span class="check-icon">✓</span>
+              <span>Convidada confirmada: <strong>Ana Gabriela</strong></span>
+            </div>
+            <div class="check-item done">
+              <span class="check-icon">✓</span>
+              <span>Data selecionada: <strong id="previewDate">Ajustando...</strong></span>
+            </div>
+            <div class="check-item done">
+              <span class="check-icon">✓</span>
+              <span>Experiência gastronômica: <strong id="previewCuisine">Restaurante</strong></span>
+            </div>
+            <div class="check-item done">
+              <span class="check-icon">✓</span>
+              <span>Transporte: <strong id="previewRide">Carona de moto</strong></span>
+            </div>
           </div>
         </div>
 
@@ -398,27 +381,27 @@
         </div>
 
         <div class="match-score-preview">
-          <span class="match-number" id="matchNumber">0%</span>
-          <span class="match-label">Sinergia & Sintonia Confirmada</span>
+          <span class="match-number" id="matchNumber">100%</span>
+          <span class="match-label">Planejamento Concluído</span>
         </div>
       </div>
     </section>
 
     <!-- ==============================================
-         FASE 6: O GRANDE CONVITE (COM O BOTÃO FUJÃO)
+         FASE 6: O CONVITE OFICIAL (MADURO & CHARMOSO)
          ============================================== -->
     <section class="screen" id="screen6">
       <div class="code-badge">
-        <span class="dot"></span> decision.prompt()
+        <span class="dot"></span> O CONVITE OFICIAL
       </div>
 
       <div class="invite-header">
-        <h1 class="invite-title">Ana, o convite para o nosso primeiro encontro de verdade.</h1>
+        <h1 class="invite-title">Ana, agora o convite formal.</h1>
       </div>
 
       <div class="card date-announcement-card">
         <div class="date-badge">
-          <span class="date-icon">🚏🛵</span>
+          <span class="date-icon">✨</span>
           <div class="date-details">
             <span class="date-day" id="chosenDateDisplay">ROLÊ CONFIRMADO</span>
             <span class="date-sub">Nosso Primeiro Encontro de Verdade</span>
@@ -426,44 +409,47 @@
         </div>
 
         <p class="invite-question" id="inviteQuestionText">
-          Foram 5 anos desde aquele ponto de ônibus. A gente conversa, ri e se conhece há tempos, mas nunca saímos assim antes, de um jeito bem planejado e especial. Vai ter coragem de colar comigo nesse <strong>rolê de moto</strong> na <span id="inviteDaySpan">data que você escolheu</span> pra gente celebrar essa história e curtir uma noite só nossa? (Prometo que você volta inteira pra casa 😂).
+          Passaram-se cinco anos desde que te conheci naquele ponto de ônibus. A gente conversa, ri e se conhece há tempo suficiente para saber que você é uma pessoa rara. Eu não queria deixar mais tempo passar sem termos o nosso primeiro encontro de verdade.
+          <br><br>
+          Você aceita sair comigo para esse rolê especial na <strong id="inviteDaySpan">data escolhida</strong>? Prometo boa conversa, risadas e uma noite impecável.
         </p>
 
-        <div class="runaway-zone" id="runawayZone">
-          <!-- Botão SIM confiante -->
+        <!-- Botões Confiantes e Maduros -->
+        <div class="action-decision-box">
           <button id="btnYes" class="btn btn-yes">
-            <span class="btn-heart">✨</span>
-            <span class="btn-text">SIM, COM CERTEZA!</span>
+            <span>SIM, COM CERTEZA!</span>
+            <span class="arrow-icon">→</span>
           </button>
 
-          <!-- Botão NÃO fujão com humor de programador -->
-          <button id="btnNo" class="btn btn-no">
-            <span class="btn-text" id="btnNoText">Não...</span>
+          <button id="btnThink" class="btn btn-think" type="button">
+            <span>Vou pensar com carinho...</span>
           </button>
         </div>
 
-        <div class="runaway-hint" id="runawayHint">
-          (Dica: Como fui eu quem programou este sistema com carinho, desativei a possibilidade do 'Não' funcionar 😂)
+        <!-- Mensagem de resposta charmosa caso clique em pensar -->
+        <div class="think-response" id="thinkResponse">
+          <span class="think-icon">💡</span>
+          <span class="think-text">Pensa com carinho sim... mas não demora, porque a mesa e a carona já estão esperando por você 😉</span>
         </div>
       </div>
     </section>
 
     <!-- ==============================================
-         FASE 7: O BOARDING PASS & WHATSAPP DIRETO
+         FASE 7: CONFIRMAÇÃO & BOARDING PASS
          ============================================== -->
     <section class="screen" id="screen7">
       <div class="code-badge tag-success">
-        <span class="dot dot-success"></span> build: SUCCESS // CONFIRMED
+        <span class="dot dot-success"></span> ENCONTRO CONFIRMADO
       </div>
 
       <h1 class="congrats-title">Excelente decisão.</h1>
-      <p class="congrats-sub">Seu cartão de embarque oficial para o nosso primeiro rolê foi emitido:</p>
+      <p class="congrats-sub">O nosso primeiro rolê oficial já tem data e roteiro definidos:</p>
 
       <!-- BOARDING PASS TICKET -->
       <div class="vip-ticket" id="vipTicket">
         <div class="ticket-header">
-          <div class="ticket-logo">VIP FIRST DATE PASS</div>
-          <div class="ticket-class">CLASSE EXCLUSIVA</div>
+          <div class="ticket-logo">VIP INVITATION PASS</div>
+          <div class="ticket-class">ENCONTRO EXCLUSIVO</div>
         </div>
 
         <div class="ticket-body">
@@ -473,7 +459,7 @@
               <span class="ticket-value highlight">Ana Gabriela</span>
             </div>
             <div class="ticket-col">
-              <span class="ticket-label">DEV & PILOTO</span>
+              <span class="ticket-label">ANFITRIÃO & PILOTO</span>
               <span class="ticket-value">Leonardo</span>
             </div>
           </div>
@@ -481,11 +467,11 @@
           <div class="ticket-row">
             <div class="ticket-col">
               <span class="ticket-label">DATA ESCOLHIDA</span>
-              <span class="ticket-value highlight" id="ticketDateValue">Sexta que vem</span>
+              <span class="ticket-value highlight" id="ticketDateValue">Sexta-feira que vem</span>
             </div>
             <div class="ticket-col">
               <span class="ticket-label">TRANSPORTE</span>
-              <span class="ticket-value">Moto 🏍️ (Upgrade 2021)</span>
+              <span class="ticket-value" id="ticketRideValue">Moto (Carona Oficial)</span>
             </div>
           </div>
 
@@ -496,9 +482,9 @@
           </div>
 
           <div class="ticket-preferences">
-            <span class="pref-title">ROTEIRO PERSONALIZADO:</span>
+            <span class="pref-title">DETALHES DO ROTEIRO:</span>
             <div class="pref-tags" id="ticketPrefTags">
-              <!-- Gerado dinamicamente -->
+              <!-- Preenchido via script -->
             </div>
           </div>
 
@@ -507,7 +493,7 @@
               <span>||| || |||| | ||||| || ||| ||||</span>
               <span class="ticket-code">#LEO-E-ANA-2021-2026</span>
             </div>
-            <div class="seal-icon">🌟</div>
+            <div class="seal-icon">✦</div>
           </div>
         </div>
       </div>
@@ -525,7 +511,7 @@
         </a>
 
         <button id="restartBtn" class="btn btn-ghost">
-          <span>🔄 Rever escolhas</span>
+          <span>Rever escolhas</span>
         </button>
       </div>
 
