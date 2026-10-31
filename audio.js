@@ -183,6 +183,32 @@ class SoundEngine {
       osc.stop(now + n.time + n.dur);
     });
   }
+
+  playChime() {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    const now = this.ctx.currentTime;
+    // Magical crystalline chime chord
+    const chimeNotes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
+    chimeNotes.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.045);
+
+      gain.gain.setValueAtTime(0.12, now + idx * 0.045);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.045 + 0.45);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now + idx * 0.045);
+      osc.stop(now + idx * 0.045 + 0.45);
+    });
+  }
 }
 
 window.soundEngine = new SoundEngine();

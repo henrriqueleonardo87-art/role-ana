@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Ana Gabriela & Leonardo // O Rolê 🚏🛵✨</title>
+  <title>Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵</title>
 
   <meta name="description" content="De 2021 no ponto de ônibus para 2026 na garupa da moto: o convite sob medida para Ana Gabriela.">
-  <meta property="og:title" content="Ana Gabriela & Leonardo // O Rolê 🚏🛵✨">
-  <meta property="og:description" content="Autenticação biométrica necessária para acessar o convite da Ana.">
-  <meta name="theme-color" content="#faf7f5">
+  <meta property="og:title" content="Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵">
+  <meta property="og:description" content="Autenticação biométrica necessária para acessar o convite exclusivo da Ana.">
+  <meta name="theme-color" content="#fdf2f4">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏍️</text></svg>">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -23,9 +23,18 @@
 </head>
 
 <body>
-  <!-- Ambient Soft Background Lighting -->
+  <!-- Ambient Soft Background Lighting & Floating Sparkles -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
+  
+  <div class="sparkles-container" aria-hidden="true">
+    <span class="sparkle s1">✦</span>
+    <span class="sparkle s2">✧</span>
+    <span class="sparkle s3">✦</span>
+    <span class="sparkle s4">✧</span>
+    <span class="sparkle s5">✦</span>
+    <span class="sparkle s6">✧</span>
+  </div>
 
   <!-- Audio Control Toggle -->
   <button id="soundToggle" class="sound-toggle" aria-label="Som" title="Ligar/Desligar Som">
@@ -50,12 +59,12 @@
          ============================================== -->
     <section class="screen active" id="screen0">
       <div class="code-badge">
-        <span class="dot"></span> auth.verifyIdentity()
+        <span class="dot"></span> auth.identifyVIP("Ana Gabriela")
       </div>
 
-      <h1 class="main-title">Acesso Restrito</h1>
+      <h1 class="main-title">Acesso Exclusivo</h1>
       <p class="subtitle">
-        Este sistema foi programado exclusivamente para <strong>Ana Gabriela</strong>. Pressione a digital para autenticar e desbloquear a sua folga oficial de se cobrar:
+        Este software foi programado linha por linha para uma única pessoa no mundo: <strong>Ana Gabriela</strong>. Pressione a digital para descriptografar o seu convite:
       </p>
 
       <div class="card scanner-card">
@@ -66,28 +75,32 @@
             <span class="telemetry-label">TELEMETRIA EM TEMPO REAL</span>
           </div>
           <p class="telemetry-message" id="telemetryMsg">
-            Aguardando toque no sensor biométrico...
+            Toque e mantenha o dedo no sensor biométrico...
           </p>
         </div>
 
-        <!-- Botão de Digital -->
+        <!-- Botão de Digital com Halo Pulsante -->
         <div class="scanner-zone">
-          <button id="biometricBtn" class="biometric-btn" type="button">
-            <span class="fingerprint-icon">
-              <svg viewBox="0 0 24 24" width="46" height="46" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"></path>
-                <path d="M14 13.12c0 2.38 0 6.38-1 8.88"></path>
-                <path d="M2 16h.01"></path>
-                <path d="M21.8 16c.2-2 .131-5.354 0-6"></path>
-                <path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"></path>
-                <path d="M5.5 13a8.9 8.9 0 0 1 .4-2.8 9.1 9.1 0 0 1 12.2-4.5"></path>
-                <path d="M2 12c0-3.3 1.8-6.3 4.7-7.9A12 12 0 0 1 19 6.2"></path>
-                <path d="M5 19.5a15.8 15.8 0 0 0 5 1.5"></path>
-              </svg>
-            </span>
-            <span class="scan-laser" id="scanLaser"></span>
-            <span class="btn-text">SEGURE PARA LER</span>
-          </button>
+          <div class="fingerprint-pulse-wrapper">
+            <div class="pulse-ring ring-1"></div>
+            <div class="pulse-ring ring-2"></div>
+            <button id="biometricBtn" class="biometric-btn" type="button">
+              <span class="fingerprint-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"></path>
+                  <path d="M14 13.12c0 2.38 0 6.38-1 8.88"></path>
+                  <path d="M2 16h.01"></path>
+                  <path d="M21.8 16c.2-2 .131-5.354 0-6"></path>
+                  <path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"></path>
+                  <path d="M5.5 13a8.9 8.9 0 0 1 .4-2.8 9.1 9.1 0 0 1 12.2-4.5"></path>
+                  <path d="M2 12c0-3.3 1.8-6.3 4.7-7.9A12 12 0 0 1 19 6.2"></path>
+                  <path d="M5 19.5a15.8 15.8 0 0 0 5 1.5"></path>
+                </svg>
+              </span>
+              <span class="scan-laser" id="scanLaser"></span>
+              <span class="btn-text">SEGURE PARA LER</span>
+            </button>
+          </div>
 
           <div class="scan-progress-bar">
             <div class="scan-progress-fill" id="scanProgressFill"></div>
@@ -96,7 +109,7 @@
         </div>
 
         <div class="scanner-tip">
-          Toque e mantenha o polegar sobre o leitor
+          Mantenha o polegar pressionado para ler os dados do sistema
         </div>
       </div>
     </section>
@@ -106,61 +119,64 @@
          ============================================== -->
     <section class="screen" id="screen1">
       <div class="code-badge">
-        <span class="dot"></span> git commit -m "upgrade-ponto-de-onibus-2021-para-moto-2026"
+        <span class="dot"></span> dossier.personalInvite("Ana Gabriela")
       </div>
 
-      <h1 class="main-title">Você achou mesmo que eu ia te chamar pra sair por mensagem comum?</h1>
+      <h1 class="main-title">Você não achou que eu ia te chamar de qualquer jeito, né?</h1>
       <p class="subtitle">
-        Lá em 2021 eu precisei fingir que queria saber o horário do ônibus pro Centro só pra descobrir seu nome e achar seu Insta. Cinco anos depois, tive que programar um software exclusivo pra te tirar da rotina.
+        Cinco anos depois daquele ponto de ônibus em 2021, a gente nunca saiu de um jeito realmente planejado e especial. Então eu decidi mudar isso:
       </p>
 
-      <div class="card dossier-card">
-        <div class="dossier-header">
-          <span class="dossier-title">// RECONHECIMENTO DE PERFIL</span>
-          <span class="dossier-id">TARGET: ANA GABRIELA</span>
+      <div class="dossier-grid">
+        <!-- Card 1 -->
+        <div class="story-card">
+          <div class="story-card-top">
+            <span class="story-icon">🚏</span>
+            <span class="story-tag tag-gold">ORIGEM // 2021</span>
+          </div>
+          <h3 class="story-title">O Golpe do Ponto de Ônibus</h3>
+          <p class="story-desc">
+            "Moça, que horas passa o ônibus pro Centro?" — Confesso: foi a desculpa mais manjada do mundo, mas funcionou. Eu só precisava de um pretexto pra saber seu nome e achar seu Insta.
+          </p>
         </div>
 
-        <div class="dossier-row">
-          <div class="dossier-icon">🚏</div>
-          <div class="dossier-text">
-            <strong>O Golpe do Ônibus (2021):</strong>
-            <p>"Moça, que horas passa o ônibus pro Centro?" — O golpe mais velho do mundo, mas funcionou. Demorou 5 anos, mas o deploy desse rolê finalmente saiu.</p>
+        <!-- Card 2 -->
+        <div class="story-card">
+          <div class="story-card-top">
+            <span class="story-icon">📚</span>
+            <span class="story-tag tag-rose">QUEM É VOCÊ</span>
           </div>
+          <h3 class="story-title">Inteligente, Dedicada & Irônica</h3>
+          <p class="story-desc">
+            Você é estudiosa, dá o sangue no que faz e tem aquele deboche afiado que me desconcertou desde o primeiro dia. Você não é qualquer garota — e o jeito de te convidar também não podia ser.
+          </p>
         </div>
 
-        <div class="dossier-divider"></div>
-
-        <div class="dossier-row">
-          <div class="dossier-icon">📚</div>
-          <div class="dossier-text">
-            <strong>Estudiosa, Esforçada & Crítica:</strong>
-            <p>Dá o sangue em tudo, não para um minuto e ainda se cobra mais do que deveria. O laudo do sistema é definitivo: você precisa urgentemente de uma folga mental e comida boa.</p>
+        <!-- Card 3 -->
+        <div class="story-card">
+          <div class="story-card-top">
+            <span class="story-icon">✨</span>
+            <span class="story-tag tag-purple">O PRIMEIRO ROLÊ</span>
           </div>
-        </div>
-
-        <div class="dossier-divider"></div>
-
-        <div class="dossier-row">
-          <div class="dossier-icon">😼</div>
-          <div class="dossier-text">
-            <strong>Ironia & Deboche Nível Master:</strong>
-            <p>Sei que você deve estar com aquele sorrisinho debochado julgando esse site agora. Mas admite: ninguém nunca programou um sistema inteiro só pra te ver sorrir.</p>
-          </div>
+          <h3 class="story-title">Nosso Primeiro Encontro de Verdade</h3>
+          <p class="story-desc">
+            Já passou da hora da gente ter um rolê decente, pensado exclusivamente pra você. Sem improviso: comida de alto nível, vento no rosto na moto e uma noite inteira pra gente rir e conversar.
+          </p>
         </div>
       </div>
 
       <!-- Caixa Pessoal e Carinhosa -->
       <div class="reassurance-box">
         <div class="reassurance-header">
-          <span class="reassurance-chip">ORDEM DO SISTEMA: ZERO COBRANÇAS</span>
+          <span class="reassurance-chip">ORDEM DO DEV: UMA NOITE FEITA PRA VOCÊ</span>
         </div>
         <p class="reassurance-text">
-          Eu ainda sei poucos dos seus gostos de cor, mas sei exatamente do que você precisa: leveza. Sem pressão, sem cobrança e sem rotina. Só uma conversa boa, umas risadas e você relaxando de verdade.
+          Eu ainda sei poucos detalhes dos seus gostos de cor, mas sei o principal: você merece ser bem tratada, valorizada e ter uma noite incrível. Você escolhe os detalhes, e eu cuido de todo o resto.
         </p>
       </div>
 
       <button id="briefingNextBtn" class="btn btn-primary">
-        <span>DESBLOQUEAR O ROLÊ DA LEVEZA</span>
+        <span>ABRIR OS DETALHES DO ROLÊ</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
@@ -173,14 +189,14 @@
         <span class="dot"></span> logistics.selectVehicle()
       </div>
 
-      <h2 class="section-title">Logística: Como você vai chegar ao nosso rolê? 🏍️</h2>
+      <h2 class="section-title">Transporte Oficial: Como a gente vai? 🏍️</h2>
       <p class="subtitle">
-        Em 2021 a gente se conheceu no ponto de ônibus... mas em 2026 a gente evoluiu: o transporte oficial agora é na garupa da moto. Escolha o seu meio:
+        Em 2021 foi no ponto de ônibus... mas pro nosso primeiro encontro de verdade, você vai no melhor assento: na garupa da moto!
       </p>
 
       <div class="context-pill-box">
         <p>
-          <strong>Aviso de Segurança:</strong> Sou preto, a cor do suspeito padrão eu já tenho... mas juro que isso NÃO é um sequestro! É só um rolê pra te tirar da rotina 😂 (E você sabe que deboche não funciona contra a moto!).
+          <strong>Aviso sincero:</strong> Sou preto, a cara do suspeito padrão eu já tenho... mas juro que isso NÃO é um sequestro! É só um rolê decente pra gente curtir 😂 Capacete limpo, piloto atencioso e respeito absoluto.
         </p>
       </div>
 
@@ -192,11 +208,12 @@
 
       <div class="options-grid" id="motoGrid">
         <!-- A ÚNICA OPÇÃO REALMENTE PERMITIDA -->
-        <button class="option-card option-real" id="optMoto" data-key="ride" data-val="Vou de garupa na moto (sem debochar do piloto)">
+        <button class="option-card option-real featured-option" id="optMoto" data-key="ride" data-val="Vou de garupa na moto (sem debochar do piloto)">
+          <div class="featured-badge">★ TRANSPORTE OFICIAL ★</div>
           <span class="option-emoji">🏍️</span>
           <div class="option-content">
             <div class="option-title">Na garupa da moto com o Leo</div>
-            <div class="option-desc">Transporte oficial. Capacete extra, vento no rosto pra espairecer a mente e zero estresse.</div>
+            <div class="option-desc">Transporte oficial de respeito. Capacete extra preparado, vento no rosto e zero perrengue.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -205,8 +222,8 @@
         <button class="option-card option-fake" id="optCarro" type="button">
           <span class="option-emoji">🚗</span>
           <div class="option-content">
-            <div class="option-title">Prefiro que a gente vá de carro...</div>
-            <div class="option-desc">Mais espaço, sem vento e sem capacete bagunçando o cabelo.</div>
+            <div class="option-title">Queria ir de carro...</div>
+            <div class="option-desc">Mais convencional, mas convenhamos: convencional não combina com a gente.</div>
           </div>
           <div class="lock-indicator">🔒</div>
         </button>
@@ -216,7 +233,7 @@
           <span class="option-emoji">🚏</span>
           <div class="option-content">
             <div class="option-title">Vou de ônibus pro Centro como em 2021!</div>
-            <div class="option-desc">Vou esperar a linha do Centro no ponto pra não te dar trabalho.</div>
+            <div class="option-desc">Esperar a linha do Centro no ponto? Aquela desculpa já cumpriu o papel dela!</div>
           </div>
           <div class="lock-indicator">🔒</div>
         </button>
@@ -236,15 +253,16 @@
         <span class="dot"></span> menu.select(palette)
       </div>
 
-      <h2 class="section-title">Já que eu ainda tô descobrindo seus gostos... o que você prefere comer?</h2>
-      <p class="subtitle">Sem pressão e sem cobrança: você escolhe a vibe culinária e eu cuido do resto:</p>
+      <h2 class="section-title">O Cardápio: O que combina com você nessa noite? 🍽️</h2>
+      <p class="subtitle">Já que este é o nosso primeiro encontro oficial, a comida tem que ser de alto nível. Escolha a sua preferência:</p>
 
       <div class="options-grid" id="cuisineGrid">
         <button class="option-card" data-key="cuisine" data-val="Italiano / Massas Artesanais">
           <span class="option-emoji">🍝</span>
           <div class="option-content">
+            <div class="option-category">MASSAS & ACONCHEGO</div>
             <div class="option-title">Trattoria & Massas Artesanais</div>
-            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Carboidrato nobre e conforto.</div>
+            <div class="option-desc">Risotto bem cremoso, fettuccine fresco ou ravioli recheado. Conforto e sabor nobre.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -252,6 +270,7 @@
         <button class="option-card" data-key="cuisine" data-val="Japonês Contemporâneo">
           <span class="option-emoji">🍣</span>
           <div class="option-content">
+            <div class="option-category">FRESCO & CONTEMPORÂNEO</div>
             <div class="option-title">Sushi & Japonês Contemporâneo</div>
             <div class="option-desc">Cortes frescos selecionados, lâminas de salmão maçaricado, elegância e leveza.</div>
           </div>
@@ -261,6 +280,7 @@
         <button class="option-card" data-key="cuisine" data-val="Parrilla & Cortes Nobres">
           <span class="option-emoji">🥩</span>
           <div class="option-content">
+            <div class="option-category">BRASA & INTENSIDADE</div>
             <div class="option-title">Parrilla & Cortes Nobres</div>
             <div class="option-desc">Corte suculento grelhado na brasa no ponto ideal com acompanhamentos especiais.</div>
           </div>
@@ -270,8 +290,9 @@
         <button class="option-card" data-key="cuisine" data-val="Burger Artesanal & Bistrô">
           <span class="option-emoji">🍔</span>
           <div class="option-content">
+            <div class="option-category">GOURMET & DESCONTRAÍDO</div>
             <div class="option-title">Burger Artesanal & Entradinhas</div>
-            <div class="option-desc">Blend suculento autoral, queijo artesanal, batata rústica e clima descontraído.</div>
+            <div class="option-desc">Blend suculento autoral, queijo artesanal, batata rústica e clima animado.</div>
           </div>
           <div class="check-circle">✓</div>
         </button>
@@ -291,11 +312,15 @@
         <span class="dot"></span> params.fine_tuning()
       </div>
 
-      <h2 class="section-title">Quatro detalhes para fechar o sistema:</h2>
+      <h2 class="section-title">Personalizando os últimos detalhes:</h2>
+      <p class="subtitle">Quatro escolhas pra deixar o rolê 100% afinado com você:</p>
 
       <!-- Pergunta 1: O Dia do Rolê -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">📅 1. Qual dia fica melhor pra você desacelerar?</label>
+        <div class="quiz-block-header">
+          <span class="step-num">01</span>
+          <label class="quiz-sub-label">Qual dia fica melhor pra você?</label>
+        </div>
         <div class="compact-options" id="dayOptions">
           <button class="pill-btn" data-key="dateDay" data-val="Sexta que vem">🌙 Sexta que vem</button>
           <button class="pill-btn" data-key="dateDay" data-val="Sábado que vem">✨ Sábado que vem</button>
@@ -305,7 +330,10 @@
 
       <!-- Pergunta 2: Bebida sem álcool -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">🥤 2. O que vamos beber para acompanhar?</label>
+        <div class="quiz-block-header">
+          <span class="step-num">02</span>
+          <label class="quiz-sub-label">O que vamos beber para acompanhar?</label>
+        </div>
         <div class="compact-options" id="drinkOptions">
           <button class="pill-btn" data-key="drink" data-val="Soda Italiana de Frutas">🫐 Soda Italiana Artesanal</button>
           <button class="pill-btn" data-key="drink" data-val="Suco Natural Especial">🍹 Suco Natural Especial</button>
@@ -316,7 +344,10 @@
 
       <!-- Pergunta 3: Sobremesa -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">🍰 3. Chegou a hora da sobremesa:</label>
+        <div class="quiz-block-header">
+          <span class="step-num">03</span>
+          <label class="quiz-sub-label">Chegou a hora da sobremesa:</label>
+        </div>
         <div class="compact-options" id="dessertOptions">
           <button class="pill-btn" data-key="dessert" data-val="Petit Gâteau Clássico">🍫 Petit Gâteau clássico</button>
           <button class="pill-btn" data-key="dessert" data-val="Gelato Artesanal ou Torta">🍨 Gelato artesanal / Torta</button>
@@ -326,16 +357,19 @@
 
       <!-- Pergunta 4: A Vibe do Rolê -->
       <div class="sub-quiz-block">
-        <label class="quiz-sub-label">✨ 4. O que não pode faltar no nosso rolê?</label>
+        <div class="quiz-block-header">
+          <span class="step-num">04</span>
+          <label class="quiz-sub-label">O que não pode faltar nessa noite?</label>
+        </div>
         <div class="compact-options" id="vibeOptions">
-          <button class="pill-btn" data-key="vibe" data-val="Desacelerar a mente e esquecer as cobranças">🧘 Desacelerar a mente e esquecer as cobranças</button>
+          <button class="pill-btn" data-key="vibe" data-val="Conversa boa, risadas e leveza">🕯️ Conversa boa, risadas e conexão real</button>
           <button class="pill-btn" data-key="vibe" data-val="Rir da história do ônibus em 2021">😼 Rir da história do ônibus em 2021 e do golpe do Insta</button>
-          <button class="pill-btn" data-key="vibe" data-val="Conversa boa sem pressa e com leveza">🕯️ Conversa boa sem pressa e com leveza</button>
+          <button class="pill-btn" data-key="vibe" data-val="Você se sentir especial e relaxar de verdade">✨ Uma noite especial onde você se sinta querida</button>
         </div>
       </div>
 
       <button id="nextBtn3" class="btn btn-primary" disabled>
-        <span>COMPILAR ALGORITMO</span>
+        <span>COMPILAR O ROLÊ</span>
         <span class="arrow-icon">→</span>
       </button>
     </section>
@@ -350,12 +384,12 @@
             <span class="terminal-dot red"></span>
             <span class="terminal-dot yellow"></span>
             <span class="terminal-dot green"></span>
-            <span class="terminal-title">date_compiler.sh</span>
+            <span class="terminal-title">first_date_compiler.sh</span>
           </div>
           <div class="terminal-body" id="terminalLogs">
             <p class="term-line">> npm run init-date --target=ana-gabriela</p>
             <p class="term-line">> Resgatando logs de 2021... "Que horas passa o busão pro Centro?"</p>
-            <p class="term-line" id="termDynamicLine">> Desativando cobranças da Ana e ativando modo leveza...</p>
+            <p class="term-line" id="termDynamicLine">> Preparando o primeiro rolê de verdade...</p>
           </div>
         </div>
 
@@ -379,7 +413,7 @@
       </div>
 
       <div class="invite-header">
-        <h1 class="invite-title">Ana, o convite é oficial.</h1>
+        <h1 class="invite-title">Ana, o convite para o nosso primeiro encontro de verdade.</h1>
       </div>
 
       <div class="card date-announcement-card">
@@ -387,12 +421,12 @@
           <span class="date-icon">🚏🛵</span>
           <div class="date-details">
             <span class="date-day" id="chosenDateDisplay">ROLÊ CONFIRMADO</span>
-            <span class="date-sub">Missão: Desacelerar & Curtir (Mesa & Rota Reservadas)</span>
+            <span class="date-sub">Nosso Primeiro Encontro de Verdade</span>
           </div>
         </div>
 
         <p class="invite-question" id="inviteQuestionText">
-          Foram 5 anos desde aquele ponto de ônibus. Vai ter coragem de colar comigo nesse <strong>rolê de moto</strong> na <span id="inviteDaySpan">data que você escolheu</span> pra esquecer as cobranças da rotina e dar boas risadas? (Prometo que você volta inteira pra casa 😂).
+          Foram 5 anos desde aquele ponto de ônibus. A gente conversa, ri e se conhece há tempos, mas nunca saímos assim antes, de um jeito bem planejado e especial. Vai ter coragem de colar comigo nesse <strong>rolê de moto</strong> na <span id="inviteDaySpan">data que você escolheu</span> pra gente celebrar essa história e curtir uma noite só nossa? (Prometo que você volta inteira pra casa 😂).
         </p>
 
         <div class="runaway-zone" id="runawayZone">
@@ -409,7 +443,7 @@
         </div>
 
         <div class="runaway-hint" id="runawayHint">
-          (Dica: Como fui eu quem programou este site, desativei a possibilidade do 'Não' funcionar 😂)
+          (Dica: Como fui eu quem programou este sistema com carinho, desativei a possibilidade do 'Não' funcionar 😂)
         </div>
       </div>
     </section>
@@ -419,16 +453,16 @@
          ============================================== -->
     <section class="screen" id="screen7">
       <div class="code-badge tag-success">
-        <span class="dot dot-success"></span> build: SUCCESS // DEPLOYED
+        <span class="dot dot-success"></span> build: SUCCESS // CONFIRMED
       </div>
 
       <h1 class="congrats-title">Excelente decisão.</h1>
-      <p class="congrats-sub">Seu cartão de embarque para o rolê foi gerado:</p>
+      <p class="congrats-sub">Seu cartão de embarque oficial para o nosso primeiro rolê foi emitido:</p>
 
       <!-- BOARDING PASS TICKET -->
       <div class="vip-ticket" id="vipTicket">
         <div class="ticket-header">
-          <div class="ticket-logo">VIP ROLÊ & RIDE PASS</div>
+          <div class="ticket-logo">VIP FIRST DATE PASS</div>
           <div class="ticket-class">CLASSE EXCLUSIVA</div>
         </div>
 
@@ -462,7 +496,7 @@
           </div>
 
           <div class="ticket-preferences">
-            <span class="pref-title">PARÂMETROS DEFINIDOS:</span>
+            <span class="pref-title">ROTEIRO PERSONALIZADO:</span>
             <div class="pref-tags" id="ticketPrefTags">
               <!-- Gerado dinamicamente -->
             </div>
@@ -473,7 +507,7 @@
               <span>||| || |||| | ||||| || ||| ||||</span>
               <span class="ticket-code">#LEO-E-ANA-2021-2026</span>
             </div>
-            <div class="seal-icon">✨</div>
+            <div class="seal-icon">🌟</div>
           </div>
         </div>
       </div>

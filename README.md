@@ -1,9 +1,9 @@
-# Ana Gabriela & Leonardo // O Rolê 🚏🛵✨
+# Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵
 
-Aplicação web interativa desenvolvida sob medida para um convite especial.
+Aplicação web interativa desenvolvida sob medida como um convite especial e exclusivo para a Ana Gabriela.
 
 ### 🚀 Sobre o Projeto
-- **História:** Do ponto de ônibus em 2021 à garupa da moto em 2026.
-- **Missão:** Operação Leveza — desacelerar a mente, esquecer as cobranças da rotina e curtir boa comida, risadas e conversa de alto nível.
+- **História:** Cinco anos depois de se conhecerem no ponto de ônibus em 2021, o convite oficial para o primeiro encontro de verdade.
+- **Conceito:** Uma noite planejada com carinho e intenção — gastronomia de alto nível, transporte oficial de moto e conversa de verdade.
 - **Tecnologias:** HTML5 semântico, CSS3 moderno, Vanilla JavaScript & Web Audio API sintetizada.
 - **Deploy:** Otimizado para hospedagem estática na Vercel.

@@ -1,5 +1,5 @@
 /**
- * Ana Gabriela & Leonardo // O Rolê
+ * Ana Gabriela & Leonardo // Nosso Primeiro Rolê ✨🛵
  * Software Engineer & Custom Personal Date Invitation
  */
 
@@ -48,12 +48,16 @@ function setupAudioListeners() {
   document.addEventListener('click', unlockAudio);
   document.addEventListener('touchstart', unlockAudio);
 
-  soundToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isMuted = window.soundEngine.toggleMute();
-    soundIcon.textContent = isMuted ? '🔇' : '🔊';
-    soundToggle.style.opacity = isMuted ? '0.5' : '1';
-  });
+  if (soundToggle) {
+    soundToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.soundEngine) {
+        const isMuted = window.soundEngine.toggleMute();
+        soundIcon.textContent = isMuted ? '🔇' : '🔊';
+        soundToggle.style.opacity = isMuted ? '0.5' : '1';
+      }
+    });
+  }
 }
 
 // Navigate between screens
@@ -80,23 +84,23 @@ function updateProgressBar() {
 
   const screenMap = [
     { fill: '12%', step: 'Identificação', tag: 'SECURITY // BIOMETRICS' },
-    { fill: '25%', step: 'Briefing', tag: 'PROJECT // OVERVIEW' },
+    { fill: '25%', step: 'O Porquê', tag: 'STORY // BRIEFING' },
     { fill: '40%', step: 'Transporte', tag: 'LOGISTICS // PROTOCOL' },
     { fill: '55%', step: 'Cardápio', tag: 'GASTRONOMY // SELECT' },
     { fill: '70%', step: 'Detalhes', tag: 'TUNING // EXPERIENCE' },
     { fill: '85%', step: 'Compilando...', tag: 'SYSTEM // COMPILER' },
     { fill: '95%', step: 'Momento Decisivo', tag: 'DECISION // PROMPT' },
-    { fill: '100%', step: 'Encontro Confirmado ✨', tag: 'BUILD // SUCCESS' }
+    { fill: '100%', step: 'Rolê Confirmado ✨', tag: 'BUILD // SUCCESS' }
   ];
 
   const info = screenMap[gameState.currentScreen] || { fill: '100%', step: 'Finalizado', tag: 'DATE // CONFIRMED' };
-  progressFill.style.width = info.fill;
-  stepIndicator.textContent = info.step;
+  if (progressFill) progressFill.style.width = info.fill;
+  if (stepIndicator) stepIndicator.textContent = info.step;
   if (missionTag) missionTag.textContent = info.tag;
 }
 
 // ==========================================================================
-// FASE 0: BIOMETRIC SCANNER (FIRST THING ON SCREEN!)
+// FASE 0: BIOMETRIC SCANNER (CADÊNCIA CALIBRADA PARA LEITURA CONFORTÁVEL)
 // ==========================================================================
 function setupBiometricScanner() {
   const btn = document.getElementById('biometricBtn');
@@ -109,16 +113,17 @@ function setupBiometricScanner() {
   let scanProgress = 0;
   let scanInterval = null;
   let isCompleted = false;
+  let resetTimeout = null;
 
+  // 7 checkpoints espaçados para ~11.5 segundos totais (~1.6s a 1.8s cada)
   const telemetryCheckpoints = [
-    { p: 1, text: '> ⏳ Identificando digital... É ela mesma: Ana Gabriela.' },
-    { p: 14, text: '> 🚏 Histórico do Sistema (2021): Lembra daquela pergunta do horário do ônibus pro Centro? Era só desculpa pra saber seu nome.' },
-    { p: 28, text: '> 📚 Diagnóstico: Estudiosa, esforçada ao extremo e com a mania perigosa de se cobrar demais.' },
-    { p: 45, text: '> 😼 Sensor de Deboche: Nível máximo detectado. Respostas afiadas e ironia fina no DNA.' },
-    { p: 60, text: '> 🧘 Operação Leveza: Hoje o sistema desativa metas, cobranças e provas. Só paz, risada e comida boa.' },
-    { p: 76, text: '> 🛵 Evolução da Frota (2026): Cinco anos depois do ponto de ônibus, a gente finalmente vai de moto.' },
-    { p: 90, text: '> 💓 Impacto no Leo: 100% desconcertado desde 2021. Nenhuma linha de código explica o quanto você é especial.' },
-    { p: 100, text: '> ✨ Autenticação Completa: Ana Gabriela, sua cota de estresse foi zerada. Acesso liberado ao nosso rolê!' }
+    { p: 2, text: '> 🚏 Localizando registros de 2021... É ela mesma: Ana Gabriela.' },
+    { p: 16, text: '> 💭 Lembra daquela desculpa boba do ônibus pro Centro? Era só pretexto pra falar com você.' },
+    { p: 32, text: '> 📚 Identificando traços: Mente afiada, esforçada ao extremo e irônica na dose certa.' },
+    { p: 48, text: '> ✨ Cinco anos se passaram e a gente nunca teve o nosso encontro de verdade, à sua altura.' },
+    { p: 66, text: '> 💻 Motivo do software: Mulher especial não se convida com mensagem genérica no WhatsApp.' },
+    { p: 84, text: '> 🛵 Protocolo oficial: Um rolê preparado sob medida pra você sorrir e se sentir cuidada.' },
+    { p: 98, text: '> 💖 Identidade confirmada: Ana Gabriela, seu convite oficial foi desbloqueado com sucesso!' }
   ];
 
   const updateTelemetryText = (currentProgress) => {
@@ -130,13 +135,13 @@ function setupBiometricScanner() {
     }
     if (msg.textContent !== chosenText) {
       msg.classList.add('changing');
-      if (window.soundEngine && currentProgress > 5 && currentProgress < 99) {
+      if (window.soundEngine && currentProgress > 3 && currentProgress < 98) {
         window.soundEngine.playPop();
       }
       setTimeout(() => {
         msg.textContent = chosenText;
         msg.classList.remove('changing');
-      }, 140);
+      }, 160);
     }
   };
 
@@ -144,25 +149,30 @@ function setupBiometricScanner() {
     if (isCompleted) return;
     if (e.cancelable) e.preventDefault();
 
+    if (resetTimeout) {
+      clearTimeout(resetTimeout);
+      resetTimeout = null;
+    }
+
     btn.classList.add('scanning');
 
     if (navigator.vibrate) {
-      navigator.vibrate(30);
+      navigator.vibrate(35);
     }
     if (window.soundEngine) {
       window.soundEngine.playScanHum();
     }
 
     scanInterval = setInterval(() => {
-      // Cadence tuned to ~5.8 seconds total so she can read every personal compliment comfortably
-      scanProgress += 0.75;
+      // Incremento suave: 0.38 a cada 45ms (~11.8s no total para leitura confortável)
+      scanProgress += 0.38;
       if (scanProgress > 100) scanProgress = 100;
 
-      fill.style.width = `${scanProgress}%`;
-      percentText.textContent = `${Math.floor(scanProgress)}%`;
+      if (fill) fill.style.width = `${scanProgress}%`;
+      if (percentText) percentText.textContent = `${Math.floor(scanProgress)}%`;
       updateTelemetryText(scanProgress);
 
-      if (Math.floor(scanProgress) % 20 === 0 && window.soundEngine) {
+      if (Math.floor(scanProgress) % 25 === 0 && window.soundEngine) {
         window.soundEngine.playScanHum();
       }
 
@@ -177,40 +187,50 @@ function setupBiometricScanner() {
         }
         if (window.soundEngine) {
           window.soundEngine.playScanSuccess();
+          if (window.soundEngine.playChime) {
+            setTimeout(() => window.soundEngine.playChime(), 300);
+          }
         }
 
         if (window.confetti) {
           confetti({
-            particleCount: 70,
-            spread: 75,
+            particleCount: 85,
+            spread: 80,
             origin: { y: 0.6 }
           });
         }
 
         setTimeout(() => {
           goToScreen(1); // Go to Briefing (Screen 1)
-        }, 1400);
+        }, 1500);
       }
     }, 45);
   };
 
-  const stopScanning = () => {
+  const pauseScanning = () => {
     if (isCompleted) return;
     clearInterval(scanInterval);
     btn.classList.remove('scanning');
-    scanProgress = 0;
-    fill.style.width = '0%';
-    percentText.textContent = '0%';
-    msg.textContent = '> ⚠️ Leitura interrompida! Mantenha o polegar pressionado até 100%.';
+    
+    if (scanProgress < 100) {
+      msg.textContent = '> ⏸️ Leitura pausada. Mantenha o dedo pressionado para continuar...';
+      // Só reseta se ela passar mais de 4 segundos sem tocar
+      resetTimeout = setTimeout(() => {
+        scanProgress = 0;
+        if (fill) fill.style.width = '0%';
+        if (percentText) percentText.textContent = '0%';
+        msg.textContent = '> Toque e mantenha o dedo no sensor biométrico...';
+      }, 4000);
+    }
   };
 
   btn.addEventListener('mousedown', startScanning);
-  btn.addEventListener('mouseup', stopScanning);
-  btn.addEventListener('mouseleave', stopScanning);
+  btn.addEventListener('mouseup', pauseScanning);
+  btn.addEventListener('mouseleave', pauseScanning);
 
   btn.addEventListener('touchstart', startScanning, { passive: false });
-  btn.addEventListener('touchend', stopScanning);
-  btn.addEventListener('touchcancel', stopScanning);
+  btn.addEventListener('touchend', pauseScanning);
+  btn.addEventListener('touchcancel', pauseScanning);
 }
 
 // ==========================================================================
@@ -237,13 +257,13 @@ function setupQuizPhase1() {
   const toast = document.getElementById('dictatorToast');
   const toastText = document.getElementById('dictatorToastText');
 
-  const dictatorPhrases = [
-    'Ônibus pro Centro em 2026?! Nem pensar, aquela desculpa já caducou! 😂',
-    'Pode guardar o deboche: quem pilota o rolê sou eu!',
-    'Carro negado! A moto é a terapia perfeita pra você parar de se cobrar por umas horas 🏍️',
-    'Já faz 5 anos que saímos daquele ponto de ônibus, a carona agora é de moto!',
+  const playfulPhrases = [
+    'Ônibus pro Centro em 2026?! Nem pensar, aquela desculpa já cumpriu o papel dela! 😂',
+    'Pode guardar esse sorrisinho debochado: hoje a convidada de honra vai de moto!',
+    'Carro negado! A moto é nosso transporte oficial pro primeiro rolê de verdade 🏍️',
+    '5 anos depois daquele ponto de ônibus, você merece chegar com estilo!',
     'Aqui é democracia relativa: quatro rodas e busão bloqueados pelo desenvolvedor!',
-    'Piloto que deixa a convidada de honra ir de busão perde a moral de vez 😂'
+    'Piloto que deixa a Ana Gabriela ir de busão perde a moral de vez 😂'
   ];
 
   let phraseIdx = 0;
@@ -269,7 +289,7 @@ function setupQuizPhase1() {
     const randomY = (Math.random() * 2 - 1) * 15;
     btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
-    toastText.textContent = dictatorPhrases[phraseIdx % dictatorPhrases.length];
+    toastText.textContent = playfulPhrases[phraseIdx % playfulPhrases.length];
     phraseIdx++;
     toast.classList.add('active');
 
@@ -293,7 +313,7 @@ function setupQuizPhase1() {
       if (optCarro) optCarro.style.transform = 'translate(0, 0)';
       if (optUber) optUber.style.transform = 'translate(0, 0)';
 
-      toastText.textContent = 'Decisão aprovada pelo Ditador! Garupa de moto confirmada para o rolê da leveza ✨';
+      toastText.textContent = 'Decisão aprovada! Garupa da moto confirmada para o nosso primeiro rolê oficial ✨';
       toast.classList.add('active');
 
       if (window.soundEngine) {
@@ -332,7 +352,7 @@ function setupQuizPhase2() {
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      goToScreen(4); // Go to Bebidas/Sobremesa (Screen 4)
+      goToScreen(4); // Go to Bebidas/Sobremesa/Dia (Screen 4)
     });
   }
 }
@@ -350,7 +370,7 @@ function setupQuizPhase3() {
         pills.forEach(p => p.classList.remove('selected'));
         pill.classList.add('selected');
         gameState.preferences[key] = pill.dataset.val;
-        if (window.soundEngine) window.soundEngine.playSelect();
+        if (window.soundEngine) window.soundEngine.playPop();
         checkPhase3Complete();
       });
     });
@@ -366,6 +386,9 @@ function setupQuizPhase3() {
     const nextBtn = document.getElementById('nextBtn3');
     if (dateDay && drink && dessert && vibe && nextBtn) {
       nextBtn.disabled = false;
+      if (window.soundEngine && window.soundEngine.playChime) {
+        window.soundEngine.playChime();
+      }
     }
   };
 
@@ -385,11 +408,12 @@ function runAIComputationScreen() {
 
   const logs = [
     '> npm run init-date --target=ana-gabriela',
-    '> Carregando histórico de 2021... Ponto de ônibus localizado.',
-    '> Analisando nível de cobrança da Ana... Alto. Aplicando patch de leveza...',
-    '> Checando índice de deboche e ironia... 100% (Dentro dos parâmetros esperados!).',
-    '> Traçando rota da moto: 5 anos de espera convertidos em rolê oficial.',
-    '> Compilação concluída: 100% de sintonia confirmada para o rolê!'
+    '> Carregando histórico de 2021: Ponto de ônibus pro Centro... Localizado!',
+    '> Analisando tempo decorrido: 5 anos de amizade e zero encontros formais...',
+    '> Aplicando resolução do desenvolvedor: Agendar o primeiro rolê de verdade.',
+    '> Mapeando perfil da Ana: Inteligente, dedicada, irônica e incrivelmente especial.',
+    '> Rota traçada na moto: Mesa reservada, comida de alto nível e conversa boa.',
+    '> Compilação concluída: 100% de sintonia confirmada para o nosso encontro!'
   ];
 
   const terminalBody = document.getElementById('terminalLogs');
@@ -410,7 +434,7 @@ function runAIComputationScreen() {
       terminalBody.scrollTop = terminalBody.scrollHeight;
       logIdx++;
     }
-  }, 600);
+  }, 650);
 
   const scoreInterval = setInterval(() => {
     score += 4;
@@ -430,9 +454,9 @@ function runAIComputationScreen() {
         const spanEl = document.getElementById('inviteDaySpan');
         if (spanEl) spanEl.textContent = chosenDay.toLowerCase();
         goToScreen(6); // Go to The Big Question (Screen 6)
-      }, 900);
+      }, 950);
     }
-  }, 60);
+  }, 65);
 }
 
 // ==========================================================================
@@ -448,10 +472,10 @@ function setupRunawayDecision() {
     'Não...',
     'Erro 404: Deboche bloqueado pelo sistema 😂',
     '5 anos esperando pra você clicar em Não?! 🚫',
-    'Para de se cobrar e clica no SIM! 😉',
-    'Você merece essa folga da rotina, aceita logo! ✨',
-    'O desenvolvedor desativou o Não, clica no SIM! 👏',
-    'Sem deboche agora: clica no SIM! ❤️'
+    'Eu programei um software inteiro, aceita logo! 😉',
+    'Você merece essa noite especial, clica no SIM! ✨',
+    'O desenvolvedor desativou o Não com carinho! 👏',
+    'Sem deboche agora: vai ser incrível, clica no SIM! ❤️'
   ];
 
   let currentScale = 1.0;
@@ -517,7 +541,7 @@ function setupRunawayDecision() {
 function fireRefinedConfetti() {
   if (!window.confetti) return;
 
-  const duration = 2.8 * 1000;
+  const duration = 3.2 * 1000;
   const end = Date.now() + duration;
 
   const interval = setInterval(() => {
@@ -526,16 +550,16 @@ function fireRefinedConfetti() {
     }
 
     confetti({
-      startVelocity: 28,
+      startVelocity: 30,
       spread: 360,
-      ticks: 60,
+      ticks: 70,
       origin: {
         x: Math.random(),
         y: Math.random() - 0.2
       },
-      colors: ['#e11d48', '#d97706', '#18181b', '#f59e0b', '#ffffff']
+      colors: ['#e11d48', '#f43f5e', '#fb7185', '#d97706', '#f59e0b', '#ffffff']
     });
-  }, 220);
+  }, 240);
 }
 
 // ==========================================================================
@@ -558,8 +582,8 @@ function renderBoardingPassTicket() {
     cuisine || 'Restaurante Exclusivo',
     drink || 'Bebida Especial',
     dessert || 'Sobremesa',
-    ride ? `🏍️ ${ride.substring(0, 24)}...` : 'Carona de Moto',
-    vibe ? `✨ ${vibe.substring(0, 24)}...` : 'Conversa Boa'
+    ride ? `🏍️ ${ride.substring(0, 26)}...` : 'Carona de Moto',
+    vibe ? `✨ ${vibe.substring(0, 26)}...` : 'Conversa Boa'
   ];
 
   tags.forEach(tagText => {
@@ -581,20 +605,20 @@ function updateWhatsAppLink() {
   const dayHeader = dateDay ? ` (${dateDay.toUpperCase()})` : '';
 
   const message = 
-`Oi Leo! Vi que você codou um sistema inteiro só pra me chamar pra sair... achei genial! 😂🏍️💻
+`Oi Leo! Vi que você codou um sistema inteiro só pra me chamar pro nosso primeiro rolê de verdade... achei incrível e muito fofo! 😂🏍️💻
 
-Minha confirmação para o nosso ROLÊ${dayHeader}:
+Minha confirmação oficial para o nosso ROLÊ${dayHeader}:
 ✅ CONVITE ACEITO!
 
-📋 Meu roteiro da leveza:
+📋 Meu roteiro da noite especial:
 • Quando: ${dateDay || 'Final de semana que vem'}
-• Transporte: ${ride || 'Vou na garupa da moto!'}
-• O que comer: ${cuisine || 'Surpresa gastronômica'}
+• Transporte: ${ride || 'Vou na garupa da moto com estilo!'}
+• O que comer: ${cuisine || 'Jantar especial selecionado'}
 • Para acompanhar: ${drink || 'Bebida bem gelada'}
-• Sobremesa: ${dessert || 'Doce especial'}
-• Vibe do rolê: ${vibe || 'Desacelerar e dar risada'}
+• Sobremesa: ${dessert || 'Sobremesa especial'}
+• Vibe do encontro: ${vibe || 'Conversa boa e leveza'}
 
-Prometo dar uma trégua no deboche e não me cobrar tanto pelo menos nessa noite. E já que se passaram 5 anos desde aquela desculpa do ônibus pro Centro 😂, te mando a localização certinha pra você me buscar de moto! 📍🛵`;
+Prometo dar uma trégua no deboche pelo menos no começo da noite 😂. E já que demorou 5 anos desde aquele ponto de ônibus, te passo a localização certinha pra você me buscar de moto! 📍🛵`;
 
   const encodedMsg = encodeURIComponent(message);
   whatsappBtn.href = `https://wa.me/${gameState.hostPhone}?text=${encodedMsg}`;
@@ -605,13 +629,13 @@ function updateCalendarLink() {
   if (!calBtn) return;
   
   const { dateDay } = gameState.preferences;
-  const title = encodeURIComponent(`Rolê: Leonardo & Ana Gabriela (${dateDay || 'Rolê'} 🛵✨)`);
+  const title = encodeURIComponent(`Primeiro Rolê: Leonardo & Ana Gabriela (${dateDay || 'Rolê'} 🛵✨)`);
   const details = encodeURIComponent(
-    'Rolê oficial confirmado pelo convite interativo!\n' +
+    'Nosso primeiro encontro oficial confirmado pelo convite interativo!\n' +
     'Dev & Piloto: Leonardo\n' +
     'Convidada de Honra: Ana Gabriela\n' +
     `Data Escolhida: ${dateDay || 'Final de semana'}\n` +
-    'Programação: Carona de moto, boa gastronomia e conversa sem pressa.'
+    'Programação: Carona de moto, gastronomia de alto nível e conversa boa.'
   );
   const location = encodeURIComponent('Lugar Especial');
 
